@@ -1,186 +1,143 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowDown, Download, Github, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { useIsMobile } from "@/hooks/useMediaQuery";
+import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
 
 export function Hero() {
-  const scrollToAbout = () => {
-    const element = document.querySelector("#about");
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-secondary/5" />
-      
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
+        {/* Colorful animated lines */}
         <motion.div
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl"
+          className="absolute top-20 left-1/4 w-1 h-32 bg-gradient-to-b from-purple-500 to-transparent"
           animate={{
-            x: [0, 100, 0],
-            y: [0, -50, 0],
+            rotate: [0, 45, 0],
+            opacity: [0.3, 0.8, 0.3],
           }}
           transition={{
-            duration: 20,
+            duration: 4,
             repeat: Infinity,
-            ease: "linear",
+            ease: "easeInOut",
           }}
         />
         <motion.div
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/10 rounded-full blur-3xl"
+          className="absolute top-1/3 right-1/4 w-1 h-24 bg-gradient-to-b from-blue-500 to-transparent"
           animate={{
-            x: [0, -100, 0],
-            y: [0, 50, 0],
+            rotate: [0, -30, 0],
+            opacity: [0.4, 0.9, 0.4],
           }}
           transition={{
-            duration: 25,
+            duration: 3,
             repeat: Infinity,
-            ease: "linear",
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/3 left-1/3 w-1 h-20 bg-gradient-to-b from-green-500 to-transparent"
+          animate={{
+            rotate: [0, 60, 0],
+            opacity: [0.2, 0.7, 0.2],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 right-1/3 w-1 h-16 bg-gradient-to-b from-yellow-500 to-transparent"
+          animate={{
+            rotate: [0, -45, 0],
+            opacity: [0.3, 0.6, 0.3],
+          }}
+          transition={{
+            duration: 3.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.5,
+          }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-1/4 w-1 h-28 bg-gradient-to-b from-pink-500 to-transparent"
+          animate={{
+            rotate: [0, 30, 0],
+            opacity: [0.4, 0.8, 0.4],
+          }}
+          transition={{
+            duration: 4.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1.5,
           }}
         />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center space-y-8">
-          {/* Greeting */}
+        <div className="text-center space-y-12">
+          {/* Main Content */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-2"
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
           >
-            <motion.p
-              className="text-primary font-medium text-lg"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              Hello, I'm
-            </motion.p>
             <motion.h1
-              className="text-4xl sm:text-6xl lg:text-7xl font-bold text-foreground"
+              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Your Name
+              Hello World,
+              <br />
+              <span className="text-gray-300">I am Tech Nerd</span>
             </motion.h1>
-          </motion.div>
 
-          {/* Animated title */}
-          <motion.div
-            className="space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            <motion.h2
-              className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-muted-foreground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-            >
-              Full Stack Developer
-            </motion.h2>
             <motion.p
-              className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+              className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
             >
-              I create beautiful, responsive web applications with modern technologies.
-              Passionate about clean code, user experience, and innovative solutions.
+              Front-end Web Developer with 4 years of experience in building
+              beautiful and modern frameworks. Passionate about design, exploring
+              new techniques, and contributing to open-source projects.
             </motion.p>
           </motion.div>
 
-          {/* CTA Buttons */}
+          {/* Know Me Button */}
           <motion.div
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
           >
             <Button
-              size="lg"
-              onClick={() => {
-                const element = document.querySelector("#projects");
-                if (element) {
-                  element.scrollIntoView({ behavior: "smooth" });
-                }
-              }}
-              className="group"
+              onClick={() => window.location.href = "/about"}
+              className="bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full font-medium text-lg transition-all duration-300 hover:scale-105"
             >
-              View My Work
-              <motion.div
-                className="ml-2"
-                animate={{ x: [0, 5, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              >
-                →
-              </motion.div>
-            </Button>
-            
-            <Button variant="outline" size="lg" className="group">
-              <Download className="mr-2 h-4 w-4 group-hover:animate-bounce" />
-              Download CV
+              Know Me
             </Button>
           </motion.div>
 
-          {/* Social Links */}
+          {/* Carousel Navigation Menu */}
           <motion.div
-            className="flex justify-center space-x-6"
-            initial={{ opacity: 0, y: 20 }}
+            className="flex justify-center"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 1.2 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
           >
-            {[
-              { icon: Github, href: "https://github.com", label: "GitHub" },
-              { icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-            ].map((social, index) => (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                whileHover={{ scale: 1.2, y: -2 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.3 + index * 0.1 }}
-              >
-                <social.icon className="h-6 w-6" />
-                <span className="sr-only">{social.label}</span>
-              </motion.a>
-            ))}
+            <CarouselNavigation />
           </motion.div>
+
+
+
+
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.button
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-muted-foreground hover:text-primary transition-colors"
-        onClick={scrollToAbout}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 1.5 }}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <ArrowDown className="h-6 w-6" />
-        </motion.div>
-        <span className="sr-only">Scroll to about section</span>
-      </motion.button>
     </section>
   );
 }
