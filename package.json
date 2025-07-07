@@ -11,6 +11,7 @@
     "build:analyze": "ANALYZE=true npm run build"
   },
   "dependencies": {
+    "@react-three/drei": "^10.4.4",
     "@react-three/fiber": "^9.2.0",
     "@types/three": "^0.178.0",
     "clsx": "^2.1.1",

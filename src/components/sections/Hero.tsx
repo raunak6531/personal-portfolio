@@ -138,9 +138,9 @@ export function Hero() {
           {/* Main Content with Split Text Only */}
           <div className="space-y-6">
             {/* Animated Heading */}
-            <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+            <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
               <SplitText
-                text="Hello World,"
+                text="Hey I'm Raunak,"
                 className="block"
                 splitType="chars"
                 delay={50}
@@ -152,7 +152,7 @@ export function Hero() {
                 animationDelay={0.5}
               />
               <SplitText
-                text="I am Tech Nerd"
+                text="your friendly neighbourhood developer"
                 className="block text-gray-300 mt-2"
                 splitType="chars"
                 delay={30}
