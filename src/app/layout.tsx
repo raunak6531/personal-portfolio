@@ -6,6 +6,8 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { PerformanceMonitor } from "@/components/ui/PerformanceMonitor";
+import { ThemeProvider } from "@/contexts/ThemeContext";
+import { ClientThemeToggle } from "@/components/ui/ClientThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,15 +49,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
       >
-        <PerformanceMonitor />
-        <CustomCursor />
-        <ScrollProgress />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <BackToTop />
+        <ThemeProvider defaultTheme="dark">
+          <PerformanceMonitor />
+          <CustomCursor />
+          <ScrollProgress />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <BackToTop />
+          <ClientThemeToggle />
+        </ThemeProvider>
       </body>
     </html>
   );

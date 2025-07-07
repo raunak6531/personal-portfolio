@@ -3,31 +3,52 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
+import SplitText from "@/components/ui/SplitText";
+import dynamic from "next/dynamic";
+
+// Dynamically import Silk to avoid SSR issues with Three.js
+const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 
 export function Hero() {
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
-      {/* Animated background elements */}
+    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
+      {/* Subtle Silk Background */}
+      <div className="absolute inset-0 opacity-30">
+        <Silk
+          speed={2}
+          scale={0.8}
+          color="#1a1a2e"
+          noiseIntensity={0.8}
+          rotation={0.1}
+        />
+      </div>
+
+      {/* Enhanced Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Colorful animated lines */}
+        {/* Dynamic colorful animated lines */}
         <motion.div
           className="absolute top-20 left-1/4 w-1 h-32 bg-gradient-to-b from-purple-500 to-transparent"
+          initial={{ opacity: 0, scale: 0 }}
           animate={{
-            rotate: [0, 45, 0],
             opacity: [0.3, 0.8, 0.3],
+            rotate: [0, 45, 0],
+            scale: [0.8, 1.2, 0.8],
           }}
           transition={{
             duration: 4,
             repeat: Infinity,
             ease: "easeInOut",
+            delay: 0.5,
           }}
         />
         <motion.div
           className="absolute top-1/3 right-1/4 w-1 h-24 bg-gradient-to-b from-blue-500 to-transparent"
+          initial={{ opacity: 0, x: 100 }}
           animate={{
-            rotate: [0, -30, 0],
             opacity: [0.4, 0.9, 0.4],
+            rotate: [0, -30, 0],
+            x: [100, 0, 100],
           }}
           transition={{
             duration: 3,
@@ -38,9 +59,11 @@ export function Hero() {
         />
         <motion.div
           className="absolute bottom-1/3 left-1/3 w-1 h-20 bg-gradient-to-b from-green-500 to-transparent"
+          initial={{ opacity: 0, y: -50 }}
           animate={{
-            rotate: [0, 60, 0],
             opacity: [0.2, 0.7, 0.2],
+            rotate: [0, 60, 0],
+            y: [-50, 0, -50],
           }}
           transition={{
             duration: 5,
@@ -51,9 +74,11 @@ export function Hero() {
         />
         <motion.div
           className="absolute top-1/2 right-1/3 w-1 h-16 bg-gradient-to-b from-yellow-500 to-transparent"
+          initial={{ opacity: 0, scale: 0.5 }}
           animate={{
-            rotate: [0, -45, 0],
             opacity: [0.3, 0.6, 0.3],
+            rotate: [0, -45, 0],
+            scale: [0.5, 1.5, 0.5],
           }}
           transition={{
             duration: 3.5,
@@ -64,9 +89,11 @@ export function Hero() {
         />
         <motion.div
           className="absolute bottom-20 right-1/4 w-1 h-28 bg-gradient-to-b from-pink-500 to-transparent"
+          initial={{ opacity: 0, rotate: 90 }}
           animate={{
-            rotate: [0, 30, 0],
             opacity: [0.4, 0.8, 0.4],
+            rotate: [90, 30, 90],
+            scale: [0.8, 1.1, 0.8],
           }}
           transition={{
             duration: 4.5,
@@ -75,63 +102,98 @@ export function Hero() {
             delay: 1.5,
           }}
         />
+
+        {/* Additional floating elements */}
+        <motion.div
+          className="absolute top-1/4 left-1/2 w-2 h-2 bg-cyan-400 rounded-full"
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.5, 1, 0.5],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 left-1/5 w-3 h-3 bg-orange-400 rounded-full"
+          animate={{
+            x: [0, 40, 0],
+            opacity: [0.3, 0.8, 0.3],
+            rotate: [0, 360, 0],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        />
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center space-y-12">
-          {/* Main Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            <motion.h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Hello World,
-              <br />
-              <span className="text-gray-300">I am Tech Nerd</span>
-            </motion.h1>
+          {/* Main Content with Split Text Only */}
+          <div className="space-y-6">
+            {/* Animated Heading */}
+            <div className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+              <SplitText
+                text="Hello World,"
+                className="block"
+                splitType="chars"
+                delay={50}
+                duration={0.8}
+                from={{ opacity: 0, y: 100, rotationX: -90 }}
+                to={{ opacity: 1, y: 0, rotationX: 0 }}
+                ease="back.out(1.7)"
+                triggerOnMount={true}
+                animationDelay={0.5}
+              />
+              <SplitText
+                text="I am Tech Nerd"
+                className="block text-gray-300 mt-2"
+                splitType="chars"
+                delay={30}
+                duration={0.6}
+                from={{ opacity: 0, scale: 0, rotation: 180 }}
+                to={{ opacity: 1, scale: 1, rotation: 0 }}
+                ease="elastic.out(1, 0.3)"
+                triggerOnMount={true}
+                animationDelay={1.2}
+              />
+            </div>
 
-            <motion.p
-              className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              Front-end Web Developer with 4 years of experience in building
-              beautiful and modern frameworks. Passionate about design, exploring
-              new techniques, and contributing to open-source projects.
-            </motion.p>
-          </motion.div>
+            {/* Animated Description */}
+            <div>
+              <SplitText
+                text="Front-end Web Developer with 4 years of experience in building beautiful and modern frameworks. Passionate about design, exploring new techniques, and contributing to open-source projects."
+                className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
+                splitType="words"
+                delay={20}
+                duration={0.5}
+                from={{ opacity: 0, y: 20 }}
+                to={{ opacity: 1, y: 0 }}
+                ease="power2.out"
+                triggerOnMount={true}
+                animationDelay={2.0}
+              />
+            </div>
+          </div>
 
-          {/* Know Me Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-          >
+          {/* Simple Know Me Button */}
+          <div>
             <Button
               onClick={() => window.location.href = "/about"}
               className="bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full font-medium text-lg transition-all duration-300 hover:scale-105"
             >
               Know Me
             </Button>
-          </motion.div>
+          </div>
 
-          {/* Carousel Navigation Menu */}
-          <motion.div
-            className="flex justify-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-          >
-            <CarouselNavigation />
-          </motion.div>
+          {/* Navigation is now fixed at bottom */}
+          <CarouselNavigation />
 
 
 
