@@ -37,7 +37,8 @@ export function AnimatedButton({
   return (
     <button
       onClick={handleClick}
-      className={cn("uiverse", className)}
+      className={cn("uiverse relative z-[100]", className)}
+      style={{ minWidth: '160px', zIndex: 100 }}
     >
       <div className="wrapper">
         <span>{children}</span>

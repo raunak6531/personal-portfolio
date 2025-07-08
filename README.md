@@ -40,7 +40,6 @@ src/
 │   │   └── Footer.tsx    # Site footer
 │   ├── sections/         # Page sections
 │   │   ├── Hero.tsx      # Hero section
-│   │   ├── About.tsx     # About section
 │   │   ├── Projects.tsx  # Projects showcase
 │   │   ├── Skills.tsx    # Skills section
 │   │   └── Contact.tsx   # Contact form
@@ -96,10 +95,9 @@ pnpm dev
 Update the following files with your information:
 
 1. **src/components/sections/Hero.tsx** - Name, title, and introduction
-2. **src/components/sections/About.tsx** - About text, stats, and skills
-3. **src/components/sections/Projects.tsx** - Your projects and links
-4. **src/components/sections/Contact.tsx** - Contact information
-5. **src/app/layout.tsx** - Meta tags and SEO information
+2. **src/components/sections/Projects.tsx** - Your projects and links
+3. **src/components/sections/Contact.tsx** - Contact information
+4. **src/app/layout.tsx** - Meta tags and SEO information
 
 ### Styling
 

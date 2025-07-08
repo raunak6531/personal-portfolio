@@ -10,10 +10,10 @@ const navItems = [
   { id: 1, icon: Home, label: "Home", href: "/" },
   { id: 2, icon: User, label: "About", href: "/about" },
   { id: 3, icon: Briefcase, label: "Projects", href: "/projects" },
-  { id: 4, icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com", external: true },
-  { id: 5, icon: Instagram, label: "Instagram", href: "https://instagram.com", external: true },
-  { id: 6, icon: Twitter, label: "Twitter", href: "https://twitter.com", external: true },
-  { id: 7, icon: Github, label: "GitHub", href: "https://github.com", external: true },
+  { id: 4, icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/raunak", external: true },
+  { id: 5, icon: Instagram, label: "Instagram", href: "https://instagram.com/raunak", external: true },
+  { id: 6, icon: Twitter, label: "Twitter", href: "https://twitter.com/raunak", external: true },
+  { id: 7, icon: Github, label: "GitHub", href: "https://github.com/raunak", external: true },
 ];
 
 export function CarouselNavigation() {
@@ -39,61 +39,53 @@ export function CarouselNavigation() {
   }, [pathname]);
 
   return (
-    <div className="fixed bottom-10 left-1/2 transform -translate-x-1/2 bg-background/80 backdrop-blur-md rounded-full p-4 flex gap-3 shadow-xl border border-border">
-      {navItems.map((item) => (
-        <Tooltip
-          key={item.id}
-          content={item.label}
-          position="top"
-          delay={200}
-        >
-          <motion.button
-            onClick={() => handleNavigation(item)}
-            className={`relative p-3 rounded-full transition-all duration-300 group
-              ${active === item.id
-                ? 'bg-primary/20 scale-125 text-primary'
-                : 'bg-muted/20 hover:bg-accent hover:text-accent-foreground text-muted-foreground'
-              }
-            `}
-            whileHover={{
-              y: -6,
-              scale: active === item.id ? 1.25 : 1.08,
-              transition: {
-                type: "tween",
-                duration: 0.15,
-                ease: "easeOut"
-              }
-            }}
-            whileTap={{
-              scale: active === item.id ? 1.15 : 0.95,
-              y: -2,
-              transition: { duration: 0.1 }
-            }}
-            initial={{ y: 0 }}
-            style={{
-              filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))"
-            }}
-            animate={{
-              filter: active === item.id
-                ? "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2))"
-                : "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))"
-            }}
+    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+      <div className="bg-black/95 backdrop-blur-lg rounded-full p-4 flex items-center gap-1 shadow-2xl border border-white/20">
+        {navItems.map((item) => (
+          <Tooltip
+            key={item.id}
+            content={item.label}
+            position="top"
+            delay={200}
           >
-            <motion.div
+            <motion.button
+              onClick={() => handleNavigation(item)}
+              className={`relative p-3 rounded-full transition-all duration-300 group
+                ${active === item.id
+                  ? 'bg-primary text-white scale-110'
+                  : 'text-white/70 hover:text-white hover:bg-white/10'
+                }
+              `}
               whileHover={{
-                filter: "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))",
-                transition: { duration: 0.15, ease: "easeOut" }
+                y: -6,
+                scale: active === item.id ? 1.1 : 1.05,
+                transition: {
+                  type: "tween",
+                  duration: 0.15,
+                  ease: "easeOut"
+                }
               }}
+              whileTap={{
+                scale: active === item.id ? 1.05 : 0.95,
+                y: -2,
+                transition: { duration: 0.1 }
+              }}
+              initial={{ y: 0 }}
             >
-              <item.icon className={`transition-all duration-300 ${active === item.id ? 'text-xl' : 'text-lg'}`} />
-            </motion.div>
+              <item.icon className="w-5 h-5" />
 
-            {active === item.id && (
-              <span className="absolute inset-0 rounded-full border-2 border-primary/40"></span>
-            )}
-          </motion.button>
-        </Tooltip>
-      ))}
+              {active === item.id && (
+                <motion.div
+                  className="absolute inset-0 rounded-full border-2 border-white/30"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                />
+              )}
+            </motion.button>
+          </Tooltip>
+        ))}
+      </div>
     </div>
   );
 }
