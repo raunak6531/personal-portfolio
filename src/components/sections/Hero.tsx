@@ -1,8 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
 import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
+import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import SplitText from "@/components/ui/SplitText";
 import dynamic from "next/dynamic";
 
@@ -12,7 +12,7 @@ const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 export function Hero() {
 
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
+    <section id="home" className="h-screen flex items-center justify-center relative overflow-hidden bg-background">
       {/* Subtle Silk Background */}
       <div className="absolute inset-0 opacity-30">
         <Silk
@@ -153,7 +153,7 @@ export function Hero() {
               />
               <SplitText
                 text="your friendly neighbourhood developer"
-                className="block text-gray-300 mt-2"
+                className="block text-muted-foreground mt-2"
                 splitType="chars"
                 delay={30}
                 duration={0.6}
@@ -168,8 +168,8 @@ export function Hero() {
             {/* Animated Description */}
             <div>
               <SplitText
-                text="Front-end Web Developer with 4 years of experience in building beautiful and modern frameworks. Passionate about design, exploring new techniques, and contributing to open-source projects."
-                className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed"
+                text="Front-end developer by day, UI wizard by night. I indulge in crafting snappy interfaces turning caffeine and code into pixel-perfect experiences. Bonus: I speak fluent React and sarcasm."
+                className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
                 splitType="words"
                 delay={20}
                 duration={0.5}
@@ -182,14 +182,15 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Simple Know Me Button */}
-          <div>
-            <Button
-              onClick={() => window.location.href = "/about"}
-              className="bg-white text-black hover:bg-gray-200 px-8 py-3 rounded-full font-medium text-lg transition-all duration-300 hover:scale-105"
+          {/* Animated Resume Button */}
+          <div className="flex justify-center">
+            <AnimatedButton
+              href="/finalresume.pdf"
+              download={true}
+              downloadFileName="Raunak_Resume.pdf"
             >
-              Know Me
-            </Button>
+              Resume
+            </AnimatedButton>
           </div>
 
           {/* Navigation is now fixed at bottom */}

@@ -2,12 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { PerformanceMonitor } from "@/components/ui/PerformanceMonitor";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { ClientThemeToggle } from "@/components/ui/ClientThemeToggle";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -47,19 +45,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="overflow-hidden">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-background text-foreground`}
       >
-        <ThemeProvider defaultTheme="dark">
+        <ThemeProvider>
           <PerformanceMonitor />
           <CustomCursor />
-          <ScrollProgress />
           <main className="min-h-screen">
             {children}
           </main>
           <BackToTop />
-          <ClientThemeToggle />
         </ThemeProvider>
       </body>
     </html>

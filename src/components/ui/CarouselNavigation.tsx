@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { Home, User, Briefcase, Linkedin, Instagram, Twitter, Github } from "lucide-react";
 import { Tooltip } from "./Tooltip";
 
@@ -46,7 +47,7 @@ export function CarouselNavigation() {
           position="top"
           delay={200}
         >
-          <button
+          <motion.button
             onClick={() => handleNavigation(item)}
             className={`relative p-3 rounded-full transition-all duration-300 group
               ${active === item.id
@@ -54,13 +55,43 @@ export function CarouselNavigation() {
                 : 'bg-muted/20 hover:bg-accent hover:text-accent-foreground text-muted-foreground'
               }
             `}
+            whileHover={{
+              y: -6,
+              scale: active === item.id ? 1.25 : 1.08,
+              transition: {
+                type: "tween",
+                duration: 0.15,
+                ease: "easeOut"
+              }
+            }}
+            whileTap={{
+              scale: active === item.id ? 1.15 : 0.95,
+              y: -2,
+              transition: { duration: 0.1 }
+            }}
+            initial={{ y: 0 }}
+            style={{
+              filter: "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))"
+            }}
+            animate={{
+              filter: active === item.id
+                ? "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2))"
+                : "drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))"
+            }}
           >
-            <item.icon className={`transition-all duration-300 ${active === item.id ? 'text-xl' : 'text-lg'}`} />
+            <motion.div
+              whileHover={{
+                filter: "drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15))",
+                transition: { duration: 0.15, ease: "easeOut" }
+              }}
+            >
+              <item.icon className={`transition-all duration-300 ${active === item.id ? 'text-xl' : 'text-lg'}`} />
+            </motion.div>
 
             {active === item.id && (
-              <span className="absolute inset-0 rounded-full border-2 border-primary/30 animate-ping"></span>
+              <span className="absolute inset-0 rounded-full border-2 border-primary/40"></span>
             )}
-          </button>
+          </motion.button>
         </Tooltip>
       ))}
     </div>
