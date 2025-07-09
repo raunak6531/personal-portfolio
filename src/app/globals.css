@@ -381,3 +381,18 @@ html {
   background-color: hsl(var(--primary) / 0.2);
   color: hsl(var(--primary-foreground));
 }
+
+/* Remove unwanted focus outlines and borders */
+button:focus,
+div:focus,
+*:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Ensure tooltip containers are invisible */
+.tooltip-container {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+}

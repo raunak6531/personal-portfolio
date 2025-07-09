@@ -2,14 +2,17 @@
 
 import { motion } from "framer-motion";
 import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
+import { PersonalLogo } from "@/components/ui/PersonalLogo";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import SplitText from "@/components/ui/SplitText";
+import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
 import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
 const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 
-export function Hero() {
+function HeroContent() {
+  const { isNavVisible, toggleNavigation } = useNavigation();
 
   return (
     <section id="home" className="h-screen flex items-center justify-center relative overflow-hidden bg-background">
@@ -193,8 +196,17 @@ export function Hero() {
             </AnimatedButton>
           </div>
 
+          {/* Personal Logo */}
+          <div className="fixed top-8 left-8 z-20">
+            <PersonalLogo
+              size="md"
+              onClick={toggleNavigation}
+              isToggled={!isNavVisible}
+            />
+          </div>
+
           {/* Navigation is now fixed at bottom */}
-          <CarouselNavigation />
+          <CarouselNavigation isVisible={isNavVisible} />
 
 
 
@@ -202,5 +214,13 @@ export function Hero() {
         </div>
       </div>
     </section>
+  );
+}
+
+export function Hero() {
+  return (
+    <NavigationProvider>
+      <HeroContent />
+    </NavigationProvider>
   );
 }

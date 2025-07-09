@@ -69,22 +69,22 @@ export function Tooltip({
     // Check if tooltip fits in the preferred position
     switch (position) {
       case 'top':
-        if (triggerRect.top - tooltipRect.height < 10) {
+        if (triggerRect.top - tooltipRect.height < 60) {
           newPosition = 'bottom';
         }
         break;
       case 'bottom':
-        if (triggerRect.bottom + tooltipRect.height > viewport.height - 10) {
+        if (triggerRect.bottom + tooltipRect.height > viewport.height - 60) {
           newPosition = 'top';
         }
         break;
       case 'left':
-        if (triggerRect.left - tooltipRect.width < 10) {
+        if (triggerRect.left - tooltipRect.width < 20) {
           newPosition = 'right';
         }
         break;
       case 'right':
-        if (triggerRect.right + tooltipRect.width > viewport.width - 10) {
+        if (triggerRect.right + tooltipRect.width > viewport.width - 20) {
           newPosition = 'left';
         }
         break;
@@ -102,25 +102,25 @@ export function Tooltip({
   }, []);
 
   const getPositionClasses = () => {
-    const baseClasses = 'absolute z-50 pointer-events-none';
-    
+    const baseClasses = 'absolute z-[9999] pointer-events-none';
+
     switch (actualPosition) {
       case 'top':
-        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 mb-2`;
+        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 mb-4`;
       case 'bottom':
-        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 mt-2`;
+        return `${baseClasses} top-full left-1/2 transform -translate-x-1/2 mt-4`;
       case 'left':
-        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 mr-2`;
+        return `${baseClasses} right-full top-1/2 transform -translate-y-1/2 mr-4`;
       case 'right':
-        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 ml-2`;
+        return `${baseClasses} left-full top-1/2 transform -translate-y-1/2 ml-4`;
       default:
-        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 mb-2`;
+        return `${baseClasses} bottom-full left-1/2 transform -translate-x-1/2 mb-4`;
     }
   };
 
   const getArrowClasses = () => {
-    const baseClasses = 'absolute w-2 h-2 bg-popover border border-border transform rotate-45';
-    
+    const baseClasses = 'absolute w-2 h-2 bg-black/90 border border-white/20 transform rotate-45';
+
     switch (actualPosition) {
       case 'top':
         return `${baseClasses} top-full left-1/2 -translate-x-1/2 -translate-y-1/2`;
@@ -179,11 +179,12 @@ export function Tooltip({
   return (
     <div
       ref={triggerRef}
-      className={cn('relative inline-block', className)}
+      className={cn('relative inline-block bg-transparent border-none outline-none tooltip-container', className)}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
       onFocus={showTooltip}
       onBlur={hideTooltip}
+      style={{ background: 'transparent', border: 'none', outline: 'none' }}
     >
       {children}
       
@@ -203,10 +204,13 @@ export function Tooltip({
           >
             <div
               className={cn(
-                'px-3 py-2 text-sm font-medium text-popover-foreground bg-popover border border-border rounded-lg shadow-lg backdrop-blur-sm',
+                'px-4 py-2 text-sm font-medium text-white bg-black/90 border border-white/20 rounded-lg shadow-xl backdrop-blur-md',
                 'max-w-xs break-words whitespace-nowrap',
                 contentClassName
               )}
+              style={{
+                boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1)'
+              }}
             >
               {content}
             </div>
@@ -235,21 +239,21 @@ export function SimpleTooltip({
   const getPositionClasses = () => {
     switch (position) {
       case 'top':
-        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-2';
+        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-4';
       case 'bottom':
-        return 'top-full left-1/2 transform -translate-x-1/2 mt-2';
+        return 'top-full left-1/2 transform -translate-x-1/2 mt-4';
       case 'left':
-        return 'right-full top-1/2 transform -translate-y-1/2 mr-2';
+        return 'right-full top-1/2 transform -translate-y-1/2 mr-4';
       case 'right':
-        return 'left-full top-1/2 transform -translate-y-1/2 ml-2';
+        return 'left-full top-1/2 transform -translate-y-1/2 ml-4';
       default:
-        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-2';
+        return 'bottom-full left-1/2 transform -translate-x-1/2 mb-4';
     }
   };
 
   return (
-    <div className={cn('relative inline-block group', className)}>
-      <div className="peer">{children}</div>
+    <div className={cn('relative inline-block group bg-transparent border-none outline-none tooltip-container', className)} style={{ background: 'transparent', border: 'none', outline: 'none' }}>
+      <div className="peer bg-transparent border-none outline-none tooltip-container" style={{ background: 'transparent', border: 'none', outline: 'none' }}>{children}</div>
       <div
         className={cn(
           'absolute z-50 px-3 py-2 text-sm font-medium text-popover-foreground bg-popover border border-border rounded-lg shadow-lg',
