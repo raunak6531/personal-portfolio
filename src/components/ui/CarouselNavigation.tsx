@@ -3,17 +3,18 @@
 import React, { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Home, User, Briefcase, Linkedin, Instagram, Twitter, Github } from "lucide-react";
+import { Home, User, Briefcase, Mail, Linkedin, Instagram, Twitter, Github } from "lucide-react";
 import { Tooltip } from "./Tooltip";
 
 const navItems = [
   { id: 1, icon: Home, label: "Home", href: "/" },
   { id: 2, icon: User, label: "About", href: "/about" },
   { id: 3, icon: Briefcase, label: "Projects", href: "/projects" },
-  { id: 4, icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/raunak", external: true },
-  { id: 5, icon: Instagram, label: "Instagram", href: "https://instagram.com/raunak", external: true },
-  { id: 6, icon: Twitter, label: "Twitter", href: "https://twitter.com/raunak", external: true },
-  { id: 7, icon: Github, label: "GitHub", href: "https://github.com/raunak", external: true },
+  { id: 4, icon: Mail, label: "Contact", href: "/contact" },
+  { id: 5, icon: Linkedin, label: "LinkedIn", href: "https://linkedin.com/in/raunak", external: true },
+  { id: 6, icon: Instagram, label: "Instagram", href: "https://instagram.com/raunak", external: true },
+  { id: 7, icon: Twitter, label: "Twitter", href: "https://twitter.com/raunak", external: true },
+  { id: 8, icon: Github, label: "GitHub", href: "https://github.com/raunak", external: true },
 ];
 
 interface CarouselNavigationProps {

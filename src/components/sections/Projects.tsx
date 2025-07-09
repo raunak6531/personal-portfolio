@@ -1,169 +1,179 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Github } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { useState, useRef, useEffect } from "react";
 
 const projects = [
   {
     id: 1,
-    title: "E-Commerce Platform",
-    description: "A full-stack e-commerce solution built with Next.js, featuring user authentication, payment processing, and admin dashboard.",
-    image: "/api/placeholder/600/400",
-    technologies: ["Next.js", "TypeScript", "Stripe", "PostgreSQL", "Tailwind CSS"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    featured: true,
+    title: "Portfolio",
+    year: "2024",
+    image: "https://cdn.cosmos.so/7d47d4e2-0eff-4e2f-9734-9d24a8ba067e?format=jpeg",
+    githubUrl: "https://github.com/raunak-sadana/portfolio-v3",
+    liveUrl: "https://raunak-portfolio.vercel.app"
   },
   {
     id: 2,
-    title: "Task Management App",
-    description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-    image: "/api/placeholder/600/400",
-    technologies: ["React", "Node.js", "Socket.io", "MongoDB", "Material-UI"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Weather Dashboard",
-    description: "A responsive weather dashboard that displays current conditions and forecasts with beautiful data visualizations.",
-    image: "/api/placeholder/600/400",
-    technologies: ["Vue.js", "Chart.js", "OpenWeather API", "CSS3"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "Portfolio Website",
-    description: "A modern, responsive portfolio website showcasing projects and skills with smooth animations and optimized performance.",
-    image: "/api/placeholder/600/400",
-    technologies: ["Next.js", "Framer Motion", "Tailwind CSS", "TypeScript"],
-    githubUrl: "https://github.com",
-    liveUrl: "https://example.com",
-    featured: false,
-  },
+    title: "Task Manager",
+    year: "2024",
+    image: "https://cdn.cosmos.so/5eee2d2d-3d4d-4ae5-96d4-cdbae70a2387?format=jpeg",
+    githubUrl: "https://github.com/raunak-sadana/task-manager",
+    liveUrl: "https://task-manager-demo.vercel.app"
+  }
 ];
 
 export function Projects() {
-  return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Section Header */}
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">
-              Featured Projects
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A showcase of my recent work and personal projects
-            </p>
-          </motion.div>
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+  const backgroundImageRef = useRef<HTMLImageElement>(null);
 
-          {/* Projects Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+  useEffect(() => {
+    // Preload images
+    projects.forEach((project) => {
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = project.image;
+    });
+  }, []);
+
+  const handleProjectHover = (imageUrl: string) => {
+    const backgroundImage = backgroundImageRef.current;
+    if (!backgroundImage) return;
+
+    // Reset transform and transition
+    backgroundImage.style.transition = "none";
+    backgroundImage.style.transform = "scale(1.2)";
+
+    // Immediately show the new image
+    backgroundImage.src = imageUrl;
+    backgroundImage.style.opacity = "1";
+
+    // Force browser to acknowledge the scale reset before animating
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // Re-enable transition and animate to scale 1.0
+        backgroundImage.style.transition = "transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)";
+        backgroundImage.style.transform = "scale(1.0)";
+      });
+    });
+
+    setCurrentImage(imageUrl);
+  };
+
+  const handleProjectLeave = () => {
+    const backgroundImage = backgroundImageRef.current;
+    if (backgroundImage) {
+      backgroundImage.style.opacity = "0";
+    }
+    setCurrentImage(null);
+  };
+
+  return (
+    <section id="projects" className="min-h-screen relative overflow-hidden">
+      {/* Background image container */}
+      <div className="fixed top-0 left-0 w-full h-full z-0 overflow-hidden">
+        <img
+          ref={backgroundImageRef}
+          className="absolute top-0 left-0 w-full h-full object-cover opacity-0 transition-opacity duration-300"
+          style={{ transform: 'scale(1.2)' }}
+          crossOrigin="anonymous"
+          alt=""
+        />
+      </div>
+
+      {/* Main container */}
+      <div className="w-full h-full flex flex-col items-center justify-center relative z-10">
+        <div className="w-full max-w-4xl px-8">
+          {/* Projects Heading */}
+          <motion.h1
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            style={{
+              fontFamily: '"PP Neue Montreal", sans-serif',
+              fontWeight: 700,
+              fontSize: '3rem',
+              textTransform: 'uppercase',
+              letterSpacing: '-0.03em',
+              color: '#f8f5f2'
+            }}
+          >
+            Projects
+          </motion.h1>
+
+          {/* Projects container */}
+          <div
+            className="w-full max-w-2xl mx-auto relative z-10 max-h-[60vh] overflow-y-auto px-5 py-8 scrollbar-hide"
+            onMouseLeave={handleProjectLeave}
+          >
+
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
-                className="group relative bg-background rounded-2xl overflow-hidden shadow-soft hover:shadow-large transition-all duration-300"
+                className="project-item relative flex justify-between items-center py-3 border-b border-white/10 cursor-pointer group"
                 initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                whileHover={{ y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.8,
+                  delay: index * 0.06,
+                  ease: "easeOut"
+                }}
+                onMouseEnter={() => handleProjectHover(project.image)}
+                onClick={() => window.open(project.liveUrl, '_blank')}
+                style={{
+                  fontFamily: '"PP Neue Montreal", sans-serif',
+                  fontWeight: 700,
+                  fontSize: '1.8rem',
+                  textTransform: 'uppercase',
+                  letterSpacing: '-0.03em',
+                  color: '#f8f5f2'
+                }}
               >
-                {/* Project Image */}
-                <div className="relative h-48 bg-gradient-to-br from-primary/20 to-accent/20 overflow-hidden">
-                  <div className="absolute inset-0 flex items-center justify-center text-6xl opacity-20">
-                    💻
-                  </div>
-                  {project.featured && (
-                    <div className="absolute top-4 left-4 bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-medium">
-                      Featured
-                    </div>
-                  )}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-                </div>
-
-                {/* Project Content */}
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs font-medium"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Project Links */}
-                  <div className="flex gap-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => window.open(project.githubUrl, '_blank')}
-                    >
-                      <Github className="h-4 w-4 mr-2" />
-                      Code
-                    </Button>
-                    <Button
-                      size="sm"
-                      className="flex-1"
-                      onClick={() => window.open(project.liveUrl, '_blank')}
-                    >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Live Demo
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Hover Effect */}
+                {/* Hover background effect */}
                 <motion.div
-                  className="absolute inset-0 border-2 border-primary/0 rounded-2xl transition-colors duration-300 group-hover:border-primary/20"
-                  initial={false}
+                  className="absolute bottom-0 left-0 w-full bg-white pointer-events-none"
+                  initial={{ height: 0 }}
+                  whileHover={{ height: '100%' }}
+                  transition={{
+                    duration: 0.2,
+                    ease: [0.445, 0.05, 0.55, 0.95]
+                  }}
+                  style={{ zIndex: 1 }}
                 />
+
+                {/* Project title */}
+                <div
+                  className="relative z-10 group-hover:text-black transition-colors duration-200"
+                  style={{ mixBlendMode: 'exclusion' }}
+                >
+                  {project.title}
+                </div>
+
+                {/* Project year */}
+                <div
+                  className="relative z-10 group-hover:text-black transition-colors duration-200"
+                  style={{ mixBlendMode: 'exclusion' }}
+                >
+                  {project.year}
+                </div>
               </motion.div>
             ))}
           </div>
-
-          {/* View More Button */}
-          <motion.div
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={() => window.open('https://github.com', '_blank')}
-            >
-              <Github className="h-4 w-4 mr-2" />
-              View All Projects on GitHub
-            </Button>
-          </motion.div>
         </div>
       </div>
+
+      {/* Scrollbar styles */}
+      <style jsx global>{`
+        .scrollbar-hide {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </section>
   );
 }
+
