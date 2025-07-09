@@ -103,7 +103,7 @@ function CardRotate({ children, onSendToBack, sensitivity }: CardRotateProps) {
   const rotateX = useTransform(y, [-100, 100], [60, -60]);
   const rotateY = useTransform(x, [-100, 100], [-60, 60]);
 
-  function handleDragEnd(_: any, info: { offset: { x: number; y: number } }) {
+  function handleDragEnd(_: unknown, info: { offset: { x: number; y: number } }) {
     if (
       Math.abs(info.offset.x) > sensitivity ||
       Math.abs(info.offset.y) > sensitivity
@@ -298,7 +298,7 @@ function CertificateStack({
                       .then(response => response.blob())
                       .then(blob => {
                         const blobUrl = URL.createObjectURL(blob);
-                        const newWindow = window.open(blobUrl, '_blank');
+                        window.open(blobUrl, '_blank');
                         // Clean up the blob URL after a delay
                         setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
                       })
@@ -536,7 +536,7 @@ function AboutContent() {
                     className="text-lg opacity-70 leading-relaxed"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
-                    Simplicity, clarity, and a sprinkle of aesthetic OCD — that's my UI religion.
+                    Simplicity, clarity, and a sprinkle of aesthetic OCD — that&apos;s my UI religion.
                   </p>
                 </div>
               </div>
@@ -563,7 +563,7 @@ function AboutContent() {
                     className="text-lg opacity-70 leading-relaxed mb-6"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
-                    I write code that others won't curse at. Scalable, accessible, fast as hell.
+                    I write code that others won&apos;t curse at. Scalable, accessible, fast as hell.
                   </p>
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '1.1s' }}>
@@ -571,7 +571,7 @@ function AboutContent() {
                     className="text-lg opacity-70 leading-relaxed"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
-                    If it's not maintainable, I don't ship it.
+                    If it&apos;s not maintainable, I don&apos;t ship it.
                   </p>
                 </div>
               </div>
@@ -623,7 +623,7 @@ function AboutContent() {
                       { skill: 'TypeScript', desc: 'JavaScript with trust issues' },
                       { skill: 'Tailwind CSS', desc: 'The utility king' },
                       { skill: 'Framer Motion', desc: 'Where UI starts to dance' },
-                      { skill: 'Three.js', desc: 'When 2D isn\'t enough' }
+                      { skill: 'Three.js', desc: 'When 2D isn&apos;t enough' }
                     ].map((item, index) => (
                       <div
                         key={item.skill}
@@ -1054,7 +1054,7 @@ function AboutContent() {
                 style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
               >
                 Ready to collaborate? Whether you have a project in mind, want to discuss opportunities,
-                or just want to connect, I'd love to hear from you. Let's build something amazing together!
+                or just want to connect, I&apos;d love to hear from you. Let&apos;s build something amazing together!
               </p>
             </div>
           </div>

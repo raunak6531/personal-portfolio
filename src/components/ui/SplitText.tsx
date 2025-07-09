@@ -50,7 +50,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       element.innerHTML = "";
 
       if (type === "chars") {
-        return text.split("").map((char, index) => {
+        return text.split("").map((char) => {
           const span = document.createElement("span");
           span.textContent = char === " " ? "\u00A0" : char; // Non-breaking space
           span.style.display = "inline-block";
@@ -111,7 +111,7 @@ const SplitText: React.FC<SplitTextProps> = ({
       const sign = raw < 0 ? `-=${Math.abs(raw)}px` : `+=${raw}px`;
       const start = `top ${startPct}%${sign}`;
 
-      tl.scrollTrigger = ScrollTrigger.create({
+      ScrollTrigger.create({
         trigger: el,
         start,
         toggleActions: "play none none none",

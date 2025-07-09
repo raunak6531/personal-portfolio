@@ -23,7 +23,6 @@ const projects = [
 ];
 
 export function Projects() {
-  const [currentImage, setCurrentImage] = useState<string | null>(null);
   const backgroundImageRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
@@ -56,7 +55,7 @@ export function Projects() {
       });
     });
 
-    setCurrentImage(imageUrl);
+
   };
 
   const handleProjectLeave = () => {
@@ -64,7 +63,7 @@ export function Projects() {
     if (backgroundImage) {
       backgroundImage.style.opacity = "0";
     }
-    setCurrentImage(null);
+
   };
 
   return (

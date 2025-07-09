@@ -1,14 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { 
-  Code, 
-  Database, 
-  Globe, 
-  Smartphone, 
-  Cloud, 
+import {
+  Database,
+  Globe,
+  Smartphone,
+  Cloud,
   Palette,
-  GitBranch,
   Settings
 } from "lucide-react";
 
@@ -173,7 +171,7 @@ export function Skills() {
                 Always Learning
               </h3>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Technology evolves rapidly, and I'm committed to continuous learning. 
+                Technology evolves rapidly, and I&apos;m committed to continuous learning.
                 I regularly explore new frameworks, attend tech conferences, and contribute 
                 to open-source projects to stay at the forefront of web development.
               </p>

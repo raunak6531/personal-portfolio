@@ -34,7 +34,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     applyTheme('dark');
   }, []);
 
-  const applyTheme = (newTheme: Theme) => {
+  const applyTheme = (_newTheme: Theme) => {
     const root = document.documentElement;
 
     // Remove existing theme classes and add dark
