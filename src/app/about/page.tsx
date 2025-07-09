@@ -65,6 +65,15 @@ const certificatesData = [
     description: "Software development lifecycle, design patterns, testing methodologies, and project management principles.",
     pdfPath: "/certificates/software_engineering_coursera.pdf",
     color: "purple"
+  },
+  {
+    id: 7,
+    title: "Wine Tasting Certificate",
+    issuer: "Coursera",
+    year: "2024",
+    description: "Professional wine tasting and appreciation course covering wine varieties, tasting techniques, and pairing principles.",
+    pdfPath: "/certificates/Wine-Tasting_Coursera.pdf",
+    color: "red"
   }
 ];
 
@@ -72,7 +81,8 @@ const certificatesData = [
 const certificateIcons = {
   blue: ["🎓", "🔒", "☁️"],
   green: ["💻", "🏛️"],
-  purple: ["📱", "⚙️"]
+  purple: ["📱", "⚙️"],
+  red: ["🍷", "🍇"]
 };
 
 // Function to get icon based on certificate ID and color
@@ -208,6 +218,12 @@ function CertificateStack({
             border: "border-purple-400/30",
             button: "bg-purple-500/20 hover:bg-purple-500/30 border-purple-400/30 hover:border-purple-400/50",
             glow: "from-purple-500/5"
+          },
+          red: {
+            bg: "from-red-500/20 to-red-600/10",
+            border: "border-red-400/30",
+            button: "bg-red-500/20 hover:bg-red-500/30 border-red-400/30 hover:border-red-400/50",
+            glow: "from-red-500/5"
           }
         };
 
@@ -366,7 +382,7 @@ function AboutContent() {
       elements.forEach((el) => observer.observe(el));
 
       // Observe sections for active navigation
-      const sections = document.querySelectorAll('#hero, #philosophy, #skills, #experience, #certifications');
+      const sections = document.querySelectorAll('#hero, #philosophy, #skills, #experience, #certifications, #contact');
       sections.forEach((section) => sectionObserver.observe(section));
     };
 
@@ -969,6 +985,80 @@ function AboutContent() {
             </div>
           </div>
         </div>
+
+        {/* Get in Touch Section */}
+        <div className="min-h-screen flex items-center justify-center px-8" id="contact">
+          <div className="max-w-4xl mx-auto">
+            <h2
+              className="text-4xl md:text-6xl font-light mb-16 uppercase tracking-wide text-center scroll-reveal"
+              style={{
+                fontFamily: '"PP Neue Montreal", sans-serif',
+                letterSpacing: '-0.02em'
+              }}
+            >
+              Get in Touch
+            </h2>
+
+            {/* Contact Card */}
+            <div className="flex justify-center">
+              <div className="contact-card scroll-reveal" style={{ animationDelay: '0.2s' }}>
+                <div className="contact-card__img">
+                  {/* Geometric pattern background */}
+                  <div className="w-full h-full bg-gradient-to-br from-pink-400/30 via-red-400/20 to-orange-400/30 rounded-t-[20px] relative overflow-hidden">
+                    {/* Triangular pattern overlay */}
+                    <div className="absolute inset-0 opacity-40">
+                      <svg width="100%" height="100%" viewBox="0 0 300 192" className="w-full h-full">
+                        <defs>
+                          <pattern id="triangles" x="0" y="0" width="40" height="35" patternUnits="userSpaceOnUse">
+                            <polygon points="20,0 40,35 0,35" fill="#ff6b6b" opacity="0.3"/>
+                            <polygon points="0,0 20,35 40,0" fill="#ff8e8e" opacity="0.2"/>
+                          </pattern>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#triangles)"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="contact-card__avatar">
+                  <div className="w-[130px] h-[130px] bg-gradient-to-br from-pink-500/40 to-red-500/40 rounded-full flex items-center justify-center border-4 border-black backdrop-blur-sm">
+                    <img
+                      src="/my_photo.jpg"
+                      alt="Raunak Sadana"
+                      className="w-[120px] h-[120px] rounded-full object-cover"
+                    />
+                  </div>
+                </div>
+                <h3 className="contact-card__title">Raunak Sadana</h3>
+                <p className="contact-card__subtitle">Web Development</p>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    className="contact-card__btn"
+                    onClick={() => window.open('mailto:your.email@example.com', '_blank')}
+                  >
+                    Email
+                  </button>
+                  <button
+                    className="contact-card__btn contact-card__btn--solid"
+                    onClick={() => window.open('https://linkedin.com/in/yourprofile', '_blank')}
+                  >
+                    LinkedIn
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Description */}
+            <div className="text-center mt-16 scroll-reveal" style={{ animationDelay: '0.5s' }}>
+              <p
+                className="text-white/70 text-lg max-w-2xl mx-auto leading-relaxed"
+                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
+              >
+                Ready to collaborate? Whether you have a project in mind, want to discuss opportunities,
+                or just want to connect, I'd love to hear from you. Let's build something amazing together!
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Section Navigation Dots */}
@@ -978,7 +1068,8 @@ function AboutContent() {
           { id: 'philosophy', label: 'Philosophy', icon: '02' },
           { id: 'skills', label: 'Skills', icon: '03' },
           { id: 'experience', label: 'Experience', icon: '04' },
-          { id: 'certifications', label: 'Certifications', icon: '05' }
+          { id: 'certifications', label: 'Certifications', icon: '05' },
+          { id: 'contact', label: 'Contact', icon: '06' }
         ].map((section) => (
           <button
             key={section.id}
@@ -1157,6 +1248,98 @@ function AboutContent() {
 
         ::-webkit-scrollbar-thumb:hover {
           background: #555;
+        }
+
+        /* Contact Card Styles */
+        .contact-card {
+          position: relative;
+          width: 300px;
+          height: 384px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          border-radius: 20px;
+          background: rgba(0, 0, 0, 0.4);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          transition: all 0.3s ease;
+          overflow: hidden;
+        }
+
+        .contact-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(255, 255, 255, 0.2);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-card__img {
+          height: 192px;
+          width: 100%;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .contact-card__avatar {
+          position: absolute;
+          width: 130px;
+          height: 130px;
+          background: rgba(0, 0, 0, 0.8);
+          border-radius: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          top: calc(50% - 65px);
+          backdrop-filter: blur(10px);
+          border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-card__title {
+          margin-top: 60px;
+          font-weight: 500;
+          font-size: 18px;
+          color: white;
+          font-family: "PP Neue Montreal", sans-serif;
+        }
+
+        .contact-card__subtitle {
+          margin-top: 10px;
+          font-weight: 400;
+          font-size: 15px;
+          color: rgba(255, 255, 255, 0.7);
+          font-family: "TheGoodMonolith", sans-serif;
+        }
+
+        .contact-card__btn {
+          padding: 10px 20px;
+          border: 2px solid white;
+          border-radius: 4px;
+          font-weight: 700;
+          font-size: 11px;
+          color: white;
+          background: transparent;
+          text-transform: uppercase;
+          transition: all 0.3s ease;
+          cursor: pointer;
+          font-family: "TheGoodMonolith", sans-serif;
+          letter-spacing: 0.5px;
+          min-width: 80px;
+        }
+
+        .contact-card__btn:hover {
+          background: white;
+          color: black;
+          transform: translateY(-2px);
+        }
+
+        .contact-card__btn--solid {
+          background: white;
+          color: black;
+        }
+
+        .contact-card__btn--solid:hover {
+          background: transparent;
+          color: white;
+          transform: translateY(-2px);
         }
       `}</style>
     </div>
