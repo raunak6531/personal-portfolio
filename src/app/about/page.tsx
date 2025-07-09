@@ -9,6 +9,8 @@ import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
 const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
+import TiltedCard from "@/components/ui/TiltedCard";
+import { CertificateCarousel } from "@/components/ui/CertificateCarousel";
 
 // Certificate data array
 const certificatesData = [
@@ -91,248 +93,41 @@ const getCertificateIcon = (id: number, color: string) => {
   return icons[(id - 1) % icons.length];
 };
 
-interface CardRotateProps {
-  children: React.ReactNode;
-  onSendToBack: () => void;
-  sensitivity: number;
-}
 
-function CardRotate({ children, onSendToBack, sensitivity }: CardRotateProps) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useTransform(y, [-100, 100], [60, -60]);
-  const rotateY = useTransform(x, [-100, 100], [-60, 60]);
-
-  function handleDragEnd(_: unknown, info: { offset: { x: number; y: number } }) {
-    if (
-      Math.abs(info.offset.x) > sensitivity ||
-      Math.abs(info.offset.y) > sensitivity
-    ) {
-      onSendToBack();
-    } else {
-      x.set(0);
-      y.set(0);
-    }
-  }
-
-  return (
-    <motion.div
-      className="absolute cursor-grab"
-      style={{ x, y, rotateX, rotateY }}
-      drag
-      dragConstraints={{ top: 0, right: 0, bottom: 0, left: 0 }}
-      dragElastic={0.6}
-      whileTap={{ cursor: "grabbing" }}
-      onDragEnd={handleDragEnd}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-interface CertificateStackProps {
-  randomRotation?: boolean;
-  sensitivity?: number;
-  cardDimensions?: { width: number; height: number };
-  sendToBackOnClick?: boolean;
-  animationConfig?: { stiffness: number; damping: number };
-}
-
-function CertificateStack({
-  randomRotation = false,
-  sensitivity = 150,
-  cardDimensions = { width: 320, height: 400 },
-  animationConfig = { stiffness: 260, damping: 20 },
-  sendToBackOnClick = true,
-}: CertificateStackProps) {
-  const [cards, setCards] = useState(() => {
-    // Randomize the initial order and add stable random rotation
-    const shuffled = [...certificatesData].map(cert => ({
-      ...cert,
-      randomRotation: Math.random() * 10 - 5
-    }));
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-    }
-    console.log('Initial cards:', shuffled.map(c => c.title));
-    return shuffled;
-  });
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
-  const sendToBack = (id: number) => {
-    setCards((prev) => {
-      const newCards = [...prev];
-      const index = newCards.findIndex((card) => card.id === id);
-      if (index !== -1) {
-        const [card] = newCards.splice(index, 1);
-        newCards.unshift(card); // Add to beginning (back of stack)
-      }
-      console.log('Cards after reorder:', newCards.map(c => c.title));
-      return newCards;
-    });
-  };
-
-  const responsiveCardDimensions = {
-    width: isMobile ? 340 : cardDimensions.width,
-    height: isMobile ? 460 : cardDimensions.height,
-  };
-
-  return (
-    <div
-      className="relative mx-auto"
-      style={{
-        width: responsiveCardDimensions.width,
-        height: responsiveCardDimensions.height,
-        perspective: 600,
-      }}
-    >
-      {cards.map((certificate, index) => {
-        const randomRotate = randomRotation ? (certificate.randomRotation || 0) : 0;
-        const colorClasses = {
-          blue: {
-            bg: "from-blue-500/20 to-blue-600/10",
-            border: "border-blue-400/30",
-            button: "bg-blue-500/20 hover:bg-blue-500/30 border-blue-400/30 hover:border-blue-400/50",
-            glow: "from-blue-500/5"
-          },
-          green: {
-            bg: "from-green-500/20 to-green-600/10",
-            border: "border-green-400/30",
-            button: "bg-green-500/20 hover:bg-green-500/30 border-green-400/30 hover:border-green-400/50",
-            glow: "from-green-500/5"
-          },
-          purple: {
-            bg: "from-purple-500/20 to-purple-600/10",
-            border: "border-purple-400/30",
-            button: "bg-purple-500/20 hover:bg-purple-500/30 border-purple-400/30 hover:border-purple-400/50",
-            glow: "from-purple-500/5"
-          },
-          red: {
-            bg: "from-red-500/20 to-red-600/10",
-            border: "border-red-400/30",
-            button: "bg-red-500/20 hover:bg-red-500/30 border-red-400/30 hover:border-red-400/50",
-            glow: "from-red-500/5"
-          }
-        };
-
-        const colors = colorClasses[certificate.color as keyof typeof colorClasses];
-
-        return (
-          <CardRotate
-            key={certificate.id}
-            onSendToBack={() => sendToBack(certificate.id)}
-            sensitivity={sensitivity}
-          >
-            <motion.div
-              className="group bg-gradient-to-br from-white/8 to-white/[0.03] backdrop-blur-md border border-white/30 rounded-2xl p-8 hover:border-white/50 hover:bg-white/15 transition-all duration-300 shadow-2xl hover:shadow-3xl"
-              onClick={() => sendToBackOnClick && sendToBack(certificate.id)}
-              animate={{
-                rotateZ: (cards.length - index - 1) * 2 + randomRotate,
-                scale: 1 - index * 0.03,
-                transformOrigin: "50% 50%",
-                zIndex: cards.length - index,
-                y: index * 2,
-                x: index * 1,
-              }}
-              initial={false}
-              transition={{
-                type: "spring",
-                stiffness: animationConfig.stiffness,
-                damping: animationConfig.damping,
-              }}
-              style={{
-                width: responsiveCardDimensions.width,
-                height: responsiveCardDimensions.height,
-              }}
-            >
-              {/* Certificate Icon */}
-              <div className={`w-20 h-20 mx-auto mb-6 bg-gradient-to-br ${colors.bg} rounded-xl border ${colors.border} flex items-center justify-center shadow-lg`}>
-                <span className="text-3xl">{getCertificateIcon(certificate.id, certificate.color)}</span>
-              </div>
-
-              {/* Certificate Title */}
-              <h3
-                className="text-xl font-semibold mb-3 text-center text-white/95 group-hover:text-white transition-colors duration-300"
-                style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
-              >
-                {certificate.title}
-              </h3>
-
-              {/* Issuing Organization */}
-              <div className="text-center mb-5">
-                <span
-                  className="text-sm opacity-70 uppercase tracking-wider bg-white/10 px-4 py-2 rounded-full border border-white/20"
-                  style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
-                >
-                  {certificate.issuer} • {certificate.year}
-                </span>
-              </div>
-
-              {/* Description */}
-              <p
-                className="text-sm opacity-75 leading-relaxed text-center group-hover:opacity-95 transition-opacity duration-300 mb-6"
-                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
-              >
-                {certificate.description}
-              </p>
-
-              {/* View Certificate Button */}
-              <div className="text-center">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    // Create a blob URL to force browser to display PDF instead of downloading
-                    fetch(certificate.pdfPath)
-                      .then(response => response.blob())
-                      .then(blob => {
-                        const blobUrl = URL.createObjectURL(blob);
-                        window.open(blobUrl, '_blank');
-                        // Clean up the blob URL after a delay
-                        setTimeout(() => URL.revokeObjectURL(blobUrl), 1000);
-                      })
-                      .catch(() => {
-                        // Fallback to direct URL if fetch fails
-                        window.open(certificate.pdfPath, '_blank');
-                      });
-                  }}
-                  className={`inline-flex items-center gap-3 px-6 py-3 ${colors.button} rounded-xl text-sm font-semibold text-white/95 hover:text-white transition-all duration-300 hover:scale-105 shadow-sm hover:shadow-md`}
-                  style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
-                >
-                  <span className="text-lg">👁️</span>
-                  View Certificate
-                </button>
-              </div>
-
-              {/* Hover Glow Effect */}
-              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${colors.glow} to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none`}></div>
-
-              {/* Enhanced Border Glow */}
-              <div className={`absolute inset-0 rounded-2xl border-2 ${colors.border} opacity-0 group-hover:opacity-60 transition-all duration-300 pointer-events-none`}></div>
-            </motion.div>
-          </CardRotate>
-        );
-      })}
-    </div>
-  );
-}
 
 function AboutContent() {
   const { isNavVisible, toggleNavigation } = useNavigation();
   const progressRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState('hero');
   const [experienceView, setExperienceView] = useState<'responsibilities' | 'accomplishments'>('responsibilities');
+
+  // Define sections for keyboard navigation
+  const sections = [
+    { id: 'hero', label: 'About', icon: '01' },
+    { id: 'philosophy', label: 'Philosophy', icon: '02' },
+    { id: 'skills', label: 'Skills', icon: '03' },
+    { id: 'experience', label: 'Experience', icon: '04' },
+    { id: 'certifications', label: 'Certifications', icon: '05' },
+    { id: 'contact', label: 'Contact', icon: '06' }
+  ];
+
+  // Keyboard navigation handler for sections
+  const handleSectionKeyNavigation = (direction: 'up' | 'down') => {
+    const currentIndex = sections.findIndex(section => section.id === activeSection);
+    let nextIndex;
+
+    if (direction === 'up') {
+      nextIndex = currentIndex > 0 ? currentIndex - 1 : sections.length - 1;
+    } else {
+      nextIndex = currentIndex < sections.length - 1 ? currentIndex + 1 : 0;
+    }
+
+    const nextSection = sections[nextIndex];
+    const element = document.getElementById(nextSection.id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   useEffect(() => {
     // Scroll handler for progress bar
@@ -386,15 +181,36 @@ function AboutContent() {
       sections.forEach((section) => sectionObserver.observe(section));
     };
 
-    // Delay observer setup to ensure DOM is ready
-    setTimeout(observeElements, 100);
+    // Setup observer immediately but ensure DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', observeElements);
+    } else {
+      observeElements();
+    }
+
+    // Keyboard navigation for sections
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        handleSectionKeyNavigation('up');
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        handleSectionKeyNavigation('down');
+      } else if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        toggleNavigation();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
       observer.disconnect();
       sectionObserver.disconnect();
     };
-  }, []);
+  }, [activeSection]);
 
   return (
     <div className="min-h-screen bg-background text-white overflow-hidden relative">
@@ -410,11 +226,11 @@ function AboutContent() {
       {/* Silk Background */}
       <div className="fixed top-0 left-0 w-full h-full z-0 opacity-30">
         <Silk
-          speed={1.5}
-          scale={0.6}
+          speed={2}
+          scale={0.8}
           color="#1a1a2e"
-          noiseIntensity={0.6}
-          rotation={0.05}
+          noiseIntensity={0.8}
+          rotation={0.1}
         />
       </div>
 
@@ -752,7 +568,7 @@ function AboutContent() {
         <div className="min-h-screen flex items-center justify-center px-8" id="experience">
           <div className="max-w-4xl mx-auto w-full">
             <h2
-              className="text-4xl md:text-6xl font-light mb-16 uppercase tracking-wide text-center scroll-reveal"
+              className="text-4xl md:text-6xl font-light uppercase tracking-wide text-center scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -951,8 +767,8 @@ function AboutContent() {
         </div>
 
         {/* Certifications Section */}
-        <div className="min-h-screen flex items-center justify-center px-8" id="certifications">
-          <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen flex items-center justify-center px-4" id="certifications">
+          <div className="max-w-7xl mx-auto w-full">
             <h2
               className="text-4xl md:text-6xl font-light mb-16 uppercase tracking-wide text-center scroll-reveal"
               style={{
@@ -963,26 +779,13 @@ function AboutContent() {
               Certifications
             </h2>
 
-            {/* Interactive Certificate Stack */}
-            <div className="scroll-reveal flex justify-center" style={{ animationDelay: '0.2s' }}>
-              <CertificateStack
-                sensitivity={200}
-                cardDimensions={{ width: 380, height: 480 }}
-                randomRotation={true}
-                sendToBackOnClick={true}
-                animationConfig={{ stiffness: 260, damping: 20 }}
-              />
+            {/* Certificate Carousel */}
+            <div className="scroll-reveal overflow-visible" style={{ animationDelay: '0.2s' }}>
+              <CertificateCarousel certificates={certificatesData} />
             </div>
 
             {/* Instructions */}
-            <div className="text-center mt-8 scroll-reveal" style={{ animationDelay: '0.4s' }}>
-              <p
-                className="text-sm opacity-60 leading-relaxed"
-                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
-              >
-                Drag the certificates to explore • Click to bring to front • Click the button to view
-              </p>
-            </div>
+
           </div>
         </div>
 
@@ -1063,14 +866,7 @@ function AboutContent() {
 
       {/* Section Navigation Dots */}
       <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-20 space-y-6">
-        {[
-          { id: 'hero', label: 'About', icon: '01' },
-          { id: 'philosophy', label: 'Philosophy', icon: '02' },
-          { id: 'skills', label: 'Skills', icon: '03' },
-          { id: 'experience', label: 'Experience', icon: '04' },
-          { id: 'certifications', label: 'Certifications', icon: '05' },
-          { id: 'contact', label: 'Contact', icon: '06' }
-        ].map((section) => (
+        {sections.map((section) => (
           <button
             key={section.id}
             onClick={() => {

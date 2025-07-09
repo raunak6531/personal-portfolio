@@ -85,7 +85,7 @@ body {
   margin: 0;
   text-align: center;
   font-weight: 600;
-  font-size: 16px;
+  font-size: 18px;
   letter-spacing: 0.02em;
   line-height: 1.5;
   color: var(--c-color);
@@ -395,4 +395,88 @@ div:focus,
   background: transparent !important;
   border: none !important;
   outline: none !important;
+}
+
+/* Certificate Carousel Styles */
+.certificate-carousel {
+  --card-width: 320px;
+  --card-height: 384px;
+  --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Infinite Marquee Animation */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.animate-marquee-paused {
+  animation: marquee 30s linear infinite paused;
+  width: max-content;
+}
+
+.deconstructed-card {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  cursor: pointer;
+  transition: transform var(--transition-slow);
+  transform-style: preserve-3d;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.card-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform var(--transition-slow), opacity var(--transition-slow);
+}
+
+.wave-svg {
+  width: 100%;
+  height: 100%;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.frame-path {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.9);
+  stroke-width: 2;
+  stroke-dasharray: 1520;
+  stroke-dashoffset: 1520;
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.content-fragment {
+  position: relative;
+}
+
+.deconstructed-card:hover .frame-path {
+  stroke-dashoffset: 0;
+}
+
+.deconstructed-card:hover .wave-svg {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .certificate-carousel {
+    --card-width: 280px;
+    --card-height: 360px;
+  }
 }

@@ -17,11 +17,11 @@ function SkillsContent() {
       {/* Silk Background Layer */}
       <div className="fixed inset-0 z-0 opacity-30">
         <Silk
-          speed={1.5}
-          scale={0.6}
+          speed={2}
+          scale={0.8}
           color="#1a1a2e"
-          noiseIntensity={0.6}
-          rotation={0.05}
+          noiseIntensity={0.8}
+          rotation={0.1}
         />
       </div>
 
