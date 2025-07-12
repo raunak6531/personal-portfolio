@@ -2,28 +2,31 @@
 
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const projects = [
   {
     id: 1,
     title: "Portfolio",
     year: "2024",
-    image: "https://cdn.cosmos.so/7d47d4e2-0eff-4e2f-9734-9d24a8ba067e?format=jpeg",
+    image: "/portfolio.png",
     githubUrl: "https://github.com/raunak-sadana/portfolio-v3",
-    liveUrl: "https://raunak-portfolio.vercel.app"
+    liveUrl: "/",
+    isInternal: true
   },
   {
     id: 2,
-    title: "Task Manager",
+    title: "PHI SAVER",
     year: "2024",
-    image: "https://cdn.cosmos.so/5eee2d2d-3d4d-4ae5-96d4-cdbae70a2387?format=jpeg",
-    githubUrl: "https://github.com/raunak-sadana/task-manager",
-    liveUrl: "https://task-manager-demo.vercel.app"
+    image: "/phisaver.png",
+    githubUrl: "https://github.com/raunak6531/phi-saver",
+    liveUrl: "https://phi-saver-savingapp.vercel.app/"
   }
 ];
 
 export function Projects() {
   const backgroundImageRef = useRef<HTMLImageElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     // Preload images
@@ -63,7 +66,14 @@ export function Projects() {
     if (backgroundImage) {
       backgroundImage.style.opacity = "0";
     }
+  };
 
+  const handleProjectClick = (project: typeof projects[0]) => {
+    if (project.isInternal) {
+      router.push(project.liveUrl);
+    } else {
+      window.open(project.liveUrl, '_blank');
+    }
   };
 
   return (
@@ -118,7 +128,7 @@ export function Projects() {
                   ease: "easeOut"
                 }}
                 onMouseEnter={() => handleProjectHover(project.image)}
-                onClick={() => window.open(project.liveUrl, '_blank')}
+                onClick={() => handleProjectClick(project)}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   fontWeight: 700,

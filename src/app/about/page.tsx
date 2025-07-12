@@ -100,6 +100,7 @@ function AboutContent() {
   const progressRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState('hero');
   const [experienceView, setExperienceView] = useState<'responsibilities' | 'accomplishments'>('responsibilities');
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Define sections for keyboard navigation
   const sections = [
@@ -130,6 +131,9 @@ function AboutContent() {
   };
 
   useEffect(() => {
+    // Set loaded state after component mounts to trigger animations
+    setIsLoaded(true);
+
     // Scroll handler for progress bar
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -242,34 +246,34 @@ function AboutContent() {
             {/* Main Title */}
             <div className="mb-12 space-y-6">
               <h1
-                className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider animate-fade-in"
+                className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   letterSpacing: '0.05em',
                   lineHeight: '1.1',
-                  animationDelay: '0.5s'
+                  animationDelay: isLoaded ? '0.5s' : '0s'
                 }}
               >
                 परंपरा
               </h1>
               <h1
-                className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider animate-fade-in"
+                className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   letterSpacing: '0.05em',
                   lineHeight: '1.1',
-                  animationDelay: '0.8s'
+                  animationDelay: isLoaded ? '0.8s' : '0s'
                 }}
               >
                 प्रतिष्ठा
               </h1>
               <h1
-                className="text-5xl md:text-7xl lg:text-8xl font-light tracking-wider animate-fade-in"
+                className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   letterSpacing: '0.05em',
                   lineHeight: '1.1',
-                  animationDelay: '1.1s'
+                  animationDelay: isLoaded ? '1.1s' : '0s'
                 }}
               >
                 अनुशासन
@@ -278,7 +282,7 @@ function AboutContent() {
 
             {/* Subtitle */}
             <div className="max-w-3xl mx-auto">
-              <div className="animate-fade-in" style={{ animationDelay: '1.5s' }}>
+              <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: isLoaded ? '1.5s' : '0s' }}>
                 <p
                   className="text-lg md:text-xl opacity-70 leading-relaxed mb-2"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
@@ -286,7 +290,7 @@ function AboutContent() {
                   Raised on React, disciplined by bugs, and powered by caffeine.
                 </p>
               </div>
-              <div className="animate-fade-in" style={{ animationDelay: '1.8s' }}>
+              <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: isLoaded ? '1.8s' : '0s' }}>
                 <p
                   className="text-lg md:text-xl opacity-70 leading-relaxed mb-2"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
@@ -294,7 +298,7 @@ function AboutContent() {
                   I follow the holy trinity: <span className="text-white/90 font-medium">परंपरा</span> of clean code, <span className="text-white/90 font-medium">प्रतिष्ठा</span> of shipping on time,
                 </p>
               </div>
-              <div className="animate-fade-in mb-8" style={{ animationDelay: '2.1s' }}>
+              <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'} mb-8`} style={{ animationDelay: isLoaded ? '2.1s' : '0s' }}>
                 <p
                   className="text-lg md:text-xl opacity-70 leading-relaxed"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
@@ -964,7 +968,9 @@ function AboutContent() {
 
         .animate-fade-in {
           opacity: 0;
+          transform: translateY(30px);
           animation: fade-in 1s ease-out forwards;
+          animation-fill-mode: both;
         }
 
         .scroll-reveal {

@@ -41,14 +41,40 @@ export function CustomCursor() {
   const handleMouseUp = useCallback(() => setIsClicking(false), []);
 
   useEffect(() => {
-    // Add event listeners for interactive elements with better selector
-    const interactiveElements = document.querySelectorAll(
-      'a, button, [role="button"], input, textarea, [data-cursor], .cursor-pointer'
-    );
+    let currentElements: NodeListOf<Element> | null = null;
 
-    interactiveElements.forEach(el => {
-      el.addEventListener('mouseenter', handleMouseEnter);
-      el.addEventListener('mouseleave', handleMouseLeave);
+    const addEventListeners = () => {
+      // Remove previous listeners if they exist
+      if (currentElements) {
+        currentElements.forEach(el => {
+          el.removeEventListener('mouseenter', handleMouseEnter);
+          el.removeEventListener('mouseleave', handleMouseLeave);
+        });
+      }
+
+      // Add event listeners for interactive elements with better selector
+      currentElements = document.querySelectorAll(
+        'a, button, [role="button"], input, textarea, [data-cursor], .cursor-pointer'
+      );
+
+      currentElements.forEach(el => {
+        el.addEventListener('mouseenter', handleMouseEnter);
+        el.addEventListener('mouseleave', handleMouseLeave);
+      });
+    };
+
+    // Initial setup
+    addEventListeners();
+
+    // Re-scan for elements when DOM changes (for dynamic content)
+    const observer = new MutationObserver(() => {
+      addEventListeners();
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: false
     });
 
     // Mouse events
@@ -60,10 +86,13 @@ export function CustomCursor() {
       window.removeEventListener("mousemove", updateMousePosition);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
-      interactiveElements.forEach(el => {
-        el.removeEventListener('mouseenter', handleMouseEnter);
-        el.removeEventListener('mouseleave', handleMouseLeave);
-      });
+      if (currentElements) {
+        currentElements.forEach(el => {
+          el.removeEventListener('mouseenter', handleMouseEnter);
+          el.removeEventListener('mouseleave', handleMouseLeave);
+        });
+      }
+      observer.disconnect();
     };
   }, [updateMousePosition, handleMouseEnter, handleMouseLeave, handleMouseDown, handleMouseUp]);
 
@@ -124,7 +153,7 @@ export function CustomCursor() {
     <>
       {/* Subtle outer glow effect */}
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 pointer-events-none z-30"
+        className="fixed top-0 left-0 w-10 h-10 pointer-events-none z-[9998]"
         style={{
           background: `radial-gradient(circle, ${
             isHovering
@@ -149,7 +178,7 @@ export function CustomCursor() {
 
       {/* Main cursor with subtle effects */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-50"
+        className="fixed top-0 left-0 w-4 h-4 rounded-full pointer-events-none z-[9999]"
         style={{
           backgroundColor: cursorVariants[cursorVariant as keyof typeof cursorVariants].backgroundColor,
           mixBlendMode: cursorVariants[cursorVariant as keyof typeof cursorVariants].mixBlendMode,
@@ -173,7 +202,7 @@ export function CustomCursor() {
 
       {/* Subtle trailing cursor */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 border rounded-full pointer-events-none z-40"
+        className="fixed top-0 left-0 w-8 h-8 border rounded-full pointer-events-none z-[9997]"
         style={{
           borderColor: `rgba(255, 255, 255, 0.2)`,
           borderWidth: "1px",
@@ -199,7 +228,7 @@ export function CustomCursor() {
       {/* Subtle click ripple effect */}
       {isClicking && (
         <motion.div
-          className="fixed top-0 left-0 w-5 h-5 pointer-events-none z-45"
+          className="fixed top-0 left-0 w-5 h-5 pointer-events-none z-[9996]"
           style={{
             background: `radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 40%, transparent 60%)`,
             borderRadius: "50%",
