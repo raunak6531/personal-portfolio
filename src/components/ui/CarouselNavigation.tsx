@@ -73,7 +73,7 @@ export function CarouselNavigation({ isVisible = true }: CarouselNavigationProps
           >
             <motion.button
               onClick={() => handleNavigation(item)}
-              className={`relative ${isMobile ? 'p-3 min-w-[48px] min-h-[48px] mobile-nav-button' : 'p-3'} rounded-full transition-all duration-100 group overflow-hidden ${!isMobile ? 'hover:-translate-y-2' : ''} active:translate-y-0 active:scale-95 flex items-center justify-center
+              className={`relative ${isMobile ? 'p-2.5 min-w-[44px] min-h-[44px] mobile-nav-button' : 'p-3'} rounded-full transition-all duration-100 group overflow-hidden ${!isMobile ? 'hover:-translate-y-2' : ''} active:translate-y-0 active:scale-95 flex items-center justify-center
                 ${active === item.id
                   ? `bg-primary text-white ${isMobile ? 'scale-105' : 'scale-110'} shadow-lg shadow-primary/30`
                   : `text-white/70 hover:text-white hover:bg-white/10 ${!isMobile ? 'hover:scale-105' : ''}`
@@ -100,7 +100,7 @@ export function CarouselNavigation({ isVisible = true }: CarouselNavigationProps
               <div
                 className={`relative z-10 ${!isMobile ? 'group-hover:rotate-3' : ''} transition-transform duration-75 flex items-center justify-center`}
               >
-                <item.icon className={`${isMobile ? 'w-5 h-5' : 'w-5 h-5'} flex-shrink-0`} />
+                <item.icon className={`${isMobile ? 'w-4.5 h-4.5' : 'w-5 h-5'} flex-shrink-0`} />
               </div>
 
               {/* Active state indicator */}

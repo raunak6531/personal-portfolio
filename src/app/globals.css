@@ -563,14 +563,14 @@ div:focus,
 
   /* Mobile navigation button improvements */
   .mobile-nav-button {
-    min-width: 48px !important;
-    min-height: 48px !important;
-    padding: 12px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    padding: 10px !important;
   }
 
   .mobile-nav-button svg {
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
   }
 
   /* Additional mobile-specific styles for very small screens */
@@ -580,14 +580,14 @@ div:focus,
     }
 
     .mobile-nav-button {
-      min-width: 44px !important;
-      min-height: 44px !important;
-      padding: 10px !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+      padding: 8px !important;
     }
 
     .mobile-nav-button svg {
-      width: 18px !important;
-      height: 18px !important;
+      width: 16px !important;
+      height: 16px !important;
     }
   }
 

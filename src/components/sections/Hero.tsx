@@ -234,7 +234,7 @@ function HeroContent() {
           {/* Personal Logo */}
           <div className={`fixed ${isMobile ? 'top-6 left-6' : 'top-8 left-8'} z-20`}>
             <PersonalLogo
-              size={isMobile ? "md" : "md"}
+              size={isMobile ? "sm" : "md"}
               onClick={toggleNavigation}
               isToggled={!isNavVisible}
             />
