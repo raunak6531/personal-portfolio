@@ -146,7 +146,7 @@ function HeroContent() {
           {/* Main Content with Split Text Only */}
           <div className={`space-y-${isMobile ? '4' : '6'}`}>
             {/* Animated Heading */}
-            <div className={`${isMobile ? 'text-3xl' : 'text-4xl sm:text-5xl lg:text-6xl'} font-bold text-white leading-tight`}>
+            <div className={`${isMobile ? 'text-3xl' : 'text-4xl sm:text-5xl lg:text-6xl'} font-bold text-white leading-tight hero-text`}>
               <SplitText
                 text="Hey I'm Raunak,"
                 className="block"
@@ -159,25 +159,55 @@ function HeroContent() {
                 triggerOnMount={true}
                 animationDelay={0.5}
               />
-              <SplitText
-                text="your friendly neighbourhood developer"
-                className="block text-muted-foreground mt-2"
-                splitType="chars"
-                delay={30}
-                duration={0.6}
-                from={{ opacity: 0, scale: 0, rotation: 180 }}
-                to={{ opacity: 1, scale: 1, rotation: 0 }}
-                ease="elastic.out(1, 0.3)"
-                triggerOnMount={true}
-                animationDelay={1.2}
-              />
+              {isMobile ? (
+                <div className="block text-muted-foreground mt-2 text-2xl leading-tight px-2 hero-subtitle">
+                  <SplitText
+                    text="your friendly"
+                    className="inline"
+                    splitType="chars"
+                    delay={30}
+                    duration={0.6}
+                    from={{ opacity: 0, scale: 0, rotation: 180 }}
+                    to={{ opacity: 1, scale: 1, rotation: 0 }}
+                    ease="elastic.out(1, 0.3)"
+                    triggerOnMount={true}
+                    animationDelay={1.2}
+                  />
+                  <br />
+                  <SplitText
+                    text="neighbourhood developer"
+                    className="inline"
+                    splitType="chars"
+                    delay={30}
+                    duration={0.6}
+                    from={{ opacity: 0, scale: 0, rotation: 180 }}
+                    to={{ opacity: 1, scale: 1, rotation: 0 }}
+                    ease="elastic.out(1, 0.3)"
+                    triggerOnMount={true}
+                    animationDelay={1.4}
+                  />
+                </div>
+              ) : (
+                <SplitText
+                  text="your friendly neighbourhood developer"
+                  className="block text-muted-foreground mt-2"
+                  splitType="chars"
+                  delay={30}
+                  duration={0.6}
+                  from={{ opacity: 0, scale: 0, rotation: 180 }}
+                  to={{ opacity: 1, scale: 1, rotation: 0 }}
+                  ease="elastic.out(1, 0.3)"
+                  triggerOnMount={true}
+                  animationDelay={1.2}
+                />
+              )}
             </div>
 
             {/* Animated Description */}
             <div>
               <SplitText
                 text="Front-end developer by day, UI wizard by night. I indulge in crafting snappy interfaces turning caffeine and code into pixel-perfect experiences. Bonus: I speak fluent React and sarcasm."
-                className={`${isMobile ? 'text-base px-2' : 'text-lg sm:text-xl'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
+                className={`${isMobile ? 'text-base px-4' : 'text-lg sm:text-xl'} text-muted-foreground max-w-3xl mx-auto leading-relaxed hero-text`}
                 splitType="words"
                 delay={isMobile ? 30 : 20}
                 duration={0.5}
@@ -202,9 +232,9 @@ function HeroContent() {
           </div>
 
           {/* Personal Logo */}
-          <div className={`fixed ${isMobile ? 'top-4 left-4' : 'top-8 left-8'} z-20`}>
+          <div className={`fixed ${isMobile ? 'top-6 left-6' : 'top-8 left-8'} z-20`}>
             <PersonalLogo
-              size={isMobile ? "sm" : "md"}
+              size={isMobile ? "md" : "md"}
               onClick={toggleNavigation}
               isToggled={!isNavVisible}
             />

@@ -503,6 +503,30 @@ div:focus,
     text-rendering: optimizeLegibility;
   }
 
+  /* Better text wrapping on mobile */
+  .hero-text {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+
+  /* Prevent awkward word breaks for specific words */
+  .hero-subtitle {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Better mobile text handling */
+  @media (max-width: 480px) {
+    .hero-subtitle {
+      white-space: normal;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      line-height: 1.3;
+    }
+  }
+
   /* Improve touch targets */
   button, a, [role="button"] {
     min-height: 44px;
@@ -537,6 +561,18 @@ div:focus,
     touch-action: manipulation;
   }
 
+  /* Mobile navigation button improvements */
+  .mobile-nav-button {
+    min-width: 48px !important;
+    min-height: 48px !important;
+    padding: 12px !important;
+  }
+
+  .mobile-nav-button svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+
   /* Additional mobile-specific styles for very small screens */
   @media (max-width: 480px) {
     .carousel-navigation-mobile {
@@ -544,14 +580,14 @@ div:focus,
     }
 
     .mobile-nav-button {
-      min-width: 36px !important;
-      min-height: 36px !important;
-      padding: 6px !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      padding: 10px !important;
     }
 
     .mobile-nav-button svg {
-      width: 16px !important;
-      height: 16px !important;
+      width: 18px !important;
+      height: 18px !important;
     }
   }
 

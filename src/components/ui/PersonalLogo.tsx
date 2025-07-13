@@ -11,15 +11,15 @@ interface PersonalLogoProps {
 
 export function PersonalLogo({ className = "", size = 'md', onClick, isToggled = false }: PersonalLogoProps) {
   const sizeClasses = {
-    sm: 'w-8 h-8',
-    md: 'w-12 h-12',
+    sm: 'w-10 h-10',
+    md: 'w-14 h-14',
     lg: 'w-16 h-16'
   };
 
   const textSizes = {
-    sm: 'text-xs',
-    md: 'text-sm',
-    lg: 'text-base'
+    sm: 'text-sm',
+    md: 'text-base',
+    lg: 'text-lg'
   };
 
   return (
