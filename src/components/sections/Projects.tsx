@@ -27,6 +27,7 @@ const projects = [
 export function Projects() {
   const backgroundImageRef = useRef<HTMLImageElement>(null);
   const router = useRouter();
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
 
   useEffect(() => {
     // Preload images
@@ -119,7 +120,7 @@ export function Projects() {
             {projects.map((project, index) => (
               <motion.div
                 key={project.id}
-                className="project-item relative flex justify-between items-center py-3 border-b border-white/10 cursor-pointer group"
+                className="project-item relative flex justify-between items-center py-3 border-b border-white/10 cursor-pointer group overflow-hidden"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
@@ -127,7 +128,14 @@ export function Projects() {
                   delay: index * 0.06,
                   ease: "easeOut"
                 }}
-                onMouseEnter={() => handleProjectHover(project.image)}
+                onMouseEnter={() => {
+                  handleProjectHover(project.image);
+                  setHoveredProject(project.id);
+                }}
+                onMouseLeave={() => {
+                  handleProjectLeave();
+                  setHoveredProject(null);
+                }}
                 onClick={() => handleProjectClick(project)}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
@@ -138,33 +146,41 @@ export function Projects() {
                   color: '#f8f5f2'
                 }}
               >
-                {/* Hover background effect */}
+                {/* Animated background fill */}
                 <motion.div
                   className="absolute bottom-0 left-0 w-full bg-white pointer-events-none"
                   initial={{ height: 0 }}
-                  whileHover={{ height: '100%' }}
+                  animate={{
+                    height: hoveredProject === project.id ? '100%' : 0
+                  }}
                   transition={{
-                    duration: 0.2,
-                    ease: [0.445, 0.05, 0.55, 0.95]
+                    duration: 0.4,
+                    ease: [0.25, 0.46, 0.45, 0.94]
                   }}
                   style={{ zIndex: 1 }}
                 />
 
                 {/* Project title */}
-                <div
-                  className="relative z-10 group-hover:text-black transition-colors duration-200"
-                  style={{ mixBlendMode: 'exclusion' }}
+                <motion.div
+                  className="relative z-10"
+                  animate={{
+                    color: hoveredProject === project.id ? '#000000' : '#f8f5f2'
+                  }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
                 >
                   {project.title}
-                </div>
+                </motion.div>
 
                 {/* Project year */}
-                <div
-                  className="relative z-10 group-hover:text-black transition-colors duration-200"
-                  style={{ mixBlendMode: 'exclusion' }}
+                <motion.div
+                  className="relative z-10"
+                  animate={{
+                    color: hoveredProject === project.id ? '#000000' : '#f8f5f2'
+                  }}
+                  transition={{ duration: 0.3, delay: 0.1 }}
                 >
                   {project.year}
-                </div>
+                </motion.div>
               </motion.div>
             ))}
           </div>
