@@ -479,4 +479,88 @@ div:focus,
     --card-width: 280px;
     --card-height: 360px;
   }
+
+  /* Mobile-specific animated button styles */
+  .uiverse {
+    font-size: 16px;
+    border-radius: 20px;
+    min-width: 140px !important;
+  }
+
+  .uiverse .wrapper {
+    padding: 12px 20px;
+  }
+
+  .uiverse .circle {
+    width: 6px;
+    height: 6px;
+  }
+
+  /* Mobile-specific improvements */
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Improve touch targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Prevent zoom on input focus */
+  input, textarea, select {
+    font-size: 16px;
+  }
+
+  /* Optimize scrolling */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Mobile navigation improvements */
+  .carousel-navigation-mobile {
+    max-width: calc(100vw - 2rem);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .carousel-navigation-mobile::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Ensure proper spacing for mobile navigation buttons */
+  .mobile-nav-button {
+    flex-shrink: 0;
+    touch-action: manipulation;
+  }
+
+  /* Additional mobile-specific styles for very small screens */
+  @media (max-width: 480px) {
+    .carousel-navigation-mobile {
+      max-width: calc(100vw - 1rem);
+    }
+
+    .mobile-nav-button {
+      min-width: 36px !important;
+      min-height: 36px !important;
+      padding: 6px !important;
+    }
+
+    .mobile-nav-button svg {
+      width: 16px !important;
+      height: 16px !important;
+    }
+  }
+
+  /* Reduce motion for better performance on mobile */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }

@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useIsMobile, useIsTouchDevice } from '@/hooks/useMediaQuery';
 
 export type TooltipPosition = 'top' | 'bottom' | 'left' | 'right';
 
@@ -30,14 +31,19 @@ export function Tooltip({
   const timeoutRef = useRef<NodeJS.Timeout>();
   const triggerRef = useRef<HTMLDivElement>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
+  const isTouchDevice = useIsTouchDevice();
+
+  // Disable tooltips on mobile/touch devices
+  const isTooltipDisabled = disabled || isMobile || isTouchDevice;
 
   const showTooltip = () => {
-    if (disabled) return;
-    
+    if (isTooltipDisabled) return;
+
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
-    
+
     timeoutRef.current = setTimeout(() => {
       setIsVisible(true);
       // Calculate optimal position after showing
@@ -236,6 +242,9 @@ export function SimpleTooltip({
   position = 'top',
   className,
 }: SimpleTooltipProps) {
+  const isMobile = useIsMobile();
+  const isTouchDevice = useIsTouchDevice();
+
   const getPositionClasses = () => {
     switch (position) {
       case 'top':
@@ -254,16 +263,19 @@ export function SimpleTooltip({
   return (
     <div className={cn('relative inline-block group bg-transparent border-none outline-none tooltip-container', className)} style={{ background: 'transparent', border: 'none', outline: 'none' }}>
       <div className="peer bg-transparent border-none outline-none tooltip-container" style={{ background: 'transparent', border: 'none', outline: 'none' }}>{children}</div>
-      <div
-        className={cn(
-          'absolute z-50 px-3 py-2 text-sm font-medium text-popover-foreground bg-popover border border-border rounded-lg shadow-lg',
-          'opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out',
-          'pointer-events-none whitespace-nowrap backdrop-blur-sm',
-          getPositionClasses()
-        )}
-      >
-        {content}
-      </div>
+      {/* Only show tooltip on non-mobile/non-touch devices */}
+      {!isMobile && !isTouchDevice && (
+        <div
+          className={cn(
+            'absolute z-50 px-3 py-2 text-sm font-medium text-popover-foreground bg-popover border border-border rounded-lg shadow-lg',
+            'opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 ease-out',
+            'pointer-events-none whitespace-nowrap backdrop-blur-sm',
+            getPositionClasses()
+          )}
+        >
+          {content}
+        </div>
+      )}
     </div>
   );
 }

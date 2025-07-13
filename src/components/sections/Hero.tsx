@@ -6,6 +6,7 @@ import { PersonalLogo } from "@/components/ui/PersonalLogo";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import SplitText from "@/components/ui/SplitText";
 import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
+import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
@@ -13,6 +14,8 @@ const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 
 function HeroContent() {
   const { isNavVisible, toggleNavigation } = useNavigation();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   return (
     <section id="home" className="h-screen flex items-center justify-center relative overflow-hidden bg-background">
@@ -27,39 +30,40 @@ function HeroContent() {
         />
       </div>
 
-      {/* Enhanced Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Dynamic colorful animated lines */}
-        <motion.div
-          className="absolute top-20 left-1/4 w-1 h-32 bg-gradient-to-b from-purple-500 to-transparent"
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: [0.3, 0.8, 0.3],
-            rotate: [0, 45, 0],
-            scale: [0.8, 1.2, 0.8],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0.5,
-          }}
-        />
-        <motion.div
-          className="absolute top-1/3 right-1/4 w-1 h-24 bg-gradient-to-b from-blue-500 to-transparent"
-          initial={{ opacity: 0, x: 100 }}
-          animate={{
-            opacity: [0.4, 0.9, 0.4],
-            rotate: [0, -30, 0],
-            x: [100, 0, 100],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        />
+      {/* Enhanced Animated background elements - Hidden on mobile for performance */}
+      {!isMobile && (
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Dynamic colorful animated lines */}
+          <motion.div
+            className="absolute top-20 left-1/4 w-1 h-32 bg-gradient-to-b from-purple-500 to-transparent"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0.3, 0.8, 0.3],
+              rotate: [0, 45, 0],
+              scale: [0.8, 1.2, 0.8],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 0.5,
+            }}
+          />
+          <motion.div
+            className="absolute top-1/3 right-1/4 w-1 h-24 bg-gradient-to-b from-blue-500 to-transparent"
+            initial={{ opacity: 0, x: 100 }}
+            animate={{
+              opacity: [0.4, 0.9, 0.4],
+              rotate: [0, -30, 0],
+              x: [100, 0, 100],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1,
+            }}
+          />
         <motion.div
           className="absolute bottom-1/3 left-1/3 w-1 h-20 bg-gradient-to-b from-green-500 to-transparent"
           initial={{ opacity: 0, y: -50 }}
@@ -134,14 +138,15 @@ function HeroContent() {
             delay: 1,
           }}
         />
-      </div>
+        </div>
+      )}
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center space-y-12">
+        <div className={`text-center ${isMobile ? 'space-y-8' : 'space-y-12'}`}>
           {/* Main Content with Split Text Only */}
-          <div className="space-y-6">
+          <div className={`space-y-${isMobile ? '4' : '6'}`}>
             {/* Animated Heading */}
-            <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+            <div className={`${isMobile ? 'text-3xl' : 'text-4xl sm:text-5xl lg:text-6xl'} font-bold text-white leading-tight`}>
               <SplitText
                 text="Hey I'm Raunak,"
                 className="block"
@@ -172,9 +177,9 @@ function HeroContent() {
             <div>
               <SplitText
                 text="Front-end developer by day, UI wizard by night. I indulge in crafting snappy interfaces turning caffeine and code into pixel-perfect experiences. Bonus: I speak fluent React and sarcasm."
-                className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+                className={`${isMobile ? 'text-base px-2' : 'text-lg sm:text-xl'} text-muted-foreground max-w-3xl mx-auto leading-relaxed`}
                 splitType="words"
-                delay={20}
+                delay={isMobile ? 30 : 20}
                 duration={0.5}
                 from={{ opacity: 0, y: 20 }}
                 to={{ opacity: 1, y: 0 }}
@@ -197,9 +202,9 @@ function HeroContent() {
           </div>
 
           {/* Personal Logo */}
-          <div className="fixed top-8 left-8 z-20">
+          <div className={`fixed ${isMobile ? 'top-4 left-4' : 'top-8 left-8'} z-20`}>
             <PersonalLogo
-              size="md"
+              size={isMobile ? "sm" : "md"}
               onClick={toggleNavigation}
               isToggled={!isNavVisible}
             />

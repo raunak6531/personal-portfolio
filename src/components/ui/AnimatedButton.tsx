@@ -2,6 +2,7 @@
 
 import React from "react";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 
 interface AnimatedButtonProps {
   children: React.ReactNode;
@@ -20,6 +21,8 @@ export function AnimatedButton({
   download = false,
   downloadFileName
 }: AnimatedButtonProps) {
+  const isMobile = useIsMobile();
+
   const handleClick = () => {
     if (download && href) {
       // Create a temporary link element to trigger download
@@ -38,7 +41,11 @@ export function AnimatedButton({
     <button
       onClick={handleClick}
       className={cn("uiverse relative z-[100]", className)}
-      style={{ minWidth: '160px', zIndex: 100 }}
+      style={{
+        minWidth: isMobile ? '140px' : '160px',
+        zIndex: 100,
+        fontSize: isMobile ? '16px' : '18px'
+      }}
     >
       <div className="wrapper">
         <span>{children}</span>

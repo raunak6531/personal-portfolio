@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Home, User, Briefcase, Linkedin, Instagram, Github } from "lucide-react";
 import { FaXTwitter } from "react-icons/fa6";
 import { Tooltip } from "./Tooltip";
+import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
 
 const navItems = [
   { id: 1, icon: Home, label: "Home", href: "/" },
@@ -25,6 +26,8 @@ export function CarouselNavigation({ isVisible = true }: CarouselNavigationProps
   const [active, setActive] = useState(1);
   const router = useRouter();
   const pathname = usePathname();
+  const isMobile = useIsMobile();
+  const isTablet = useIsTablet();
 
   const handleNavigation = (item: typeof navItems[0]) => {
     setActive(item.id);
@@ -44,17 +47,21 @@ export function CarouselNavigation({ isVisible = true }: CarouselNavigationProps
   }, [pathname]);
 
   return (
-    <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+    <div className={`fixed ${isMobile ? 'bottom-4 left-1/2 transform -translate-x-1/2' : 'bottom-8 left-1/2 transform -translate-x-1/2'} z-50`}>
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            className="bg-black/90 backdrop-blur-xl rounded-full p-3 flex items-center gap-1 shadow-2xl border border-white/20 relative"
+            className={`bg-black/90 backdrop-blur-xl rounded-full ${isMobile ? 'p-1.5 carousel-navigation-mobile' : 'p-3'} flex items-center justify-center ${isMobile ? 'gap-0.5' : 'gap-1'} shadow-2xl border border-white/20 relative`}
             initial={{ y: 100, opacity: 0, scale: 0.8 }}
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ y: 100, opacity: 0, scale: 0.8 }}
             transition={{ duration: 0.4, ease: "backOut" }}
             style={{
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+              ...(isMobile && {
+                width: 'fit-content',
+                maxWidth: 'calc(100vw - 2rem)'
+              })
             }}
           >
         {navItems.map((item) => (
@@ -66,14 +73,14 @@ export function CarouselNavigation({ isVisible = true }: CarouselNavigationProps
           >
             <motion.button
               onClick={() => handleNavigation(item)}
-              className={`relative p-3 rounded-full transition-all duration-100 group overflow-hidden hover:-translate-y-2 active:translate-y-0 active:scale-95
+              className={`relative ${isMobile ? 'p-2 min-w-[40px] min-h-[40px] mobile-nav-button' : 'p-3'} rounded-full transition-all duration-100 group overflow-hidden ${!isMobile ? 'hover:-translate-y-2' : ''} active:translate-y-0 active:scale-95 flex items-center justify-center
                 ${active === item.id
-                  ? 'bg-primary text-white scale-110 shadow-lg shadow-primary/30'
-                  : 'text-white/70 hover:text-white hover:bg-white/10 hover:scale-105'
+                  ? `bg-primary text-white ${isMobile ? 'scale-105' : 'scale-110'} shadow-lg shadow-primary/30`
+                  : `text-white/70 hover:text-white hover:bg-white/10 ${!isMobile ? 'hover:scale-105' : ''}`
                 }
               `}
               whileTap={{
-                scale: active === item.id ? 1.05 : 0.95,
+                scale: active === item.id ? (isMobile ? 1.0 : 1.05) : 0.95,
                 transition: { duration: 0.05 }
               }}
               style={{
@@ -83,15 +90,17 @@ export function CarouselNavigation({ isVisible = true }: CarouselNavigationProps
               }}
             >
               {/* Hover glow effect */}
-              <div
-                className="absolute inset-0 rounded-full bg-gradient-to-r from-white/25 to-white/15 opacity-0 group-hover:opacity-100 transition-opacity duration-75 scale-90 group-hover:scale-110"
-              />
+              {!isMobile && (
+                <div
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-white/25 to-white/15 opacity-0 group-hover:opacity-100 transition-opacity duration-75 scale-90 group-hover:scale-110"
+                />
+              )}
 
               {/* Icon */}
               <div
-                className="relative z-10 group-hover:rotate-3 transition-transform duration-75"
+                className={`relative z-10 ${!isMobile ? 'group-hover:rotate-3' : ''} transition-transform duration-75 flex items-center justify-center`}
               >
-                <item.icon className="w-5 h-5" />
+                <item.icon className={`${isMobile ? 'w-4 h-4' : 'w-5 h-5'} flex-shrink-0`} />
               </div>
 
               {/* Active state indicator */}

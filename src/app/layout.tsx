@@ -35,6 +35,7 @@ export const metadata: Metadata = {
   keywords: ["portfolio", "web developer", "full stack", "react", "next.js", "typescript"],
   authors: [{ name: "Raunak Sadana" }],
   creator: "Raunak Sadana",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
   openGraph: {
     type: "website",
     locale: "en_US",
