@@ -5,6 +5,7 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
 import { PersonalLogo } from "@/components/ui/PersonalLogo";
 import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
@@ -101,6 +102,7 @@ function AboutContent() {
   const [activeSection, setActiveSection] = useState('hero');
   const [experienceView, setExperienceView] = useState<'responsibilities' | 'accomplishments'>('responsibilities');
   const [isLoaded, setIsLoaded] = useState(false);
+  const isMobile = useIsMobile();
 
   // Define sections for keyboard navigation
   const sections = [
@@ -242,11 +244,11 @@ function AboutContent() {
       <div className="relative z-10">
         {/* Hero Section */}
         <div className="min-h-screen flex items-center justify-center" id="hero">
-          <div className="text-center px-8">
+          <div className="text-center px-4 sm:px-6 md:px-8">
             {/* Main Title */}
-            <div className="mb-12 space-y-6">
+            <div className="mb-8 sm:mb-10 md:mb-12 space-y-4 sm:space-y-5 md:space-y-6">
               <h1
-                className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   letterSpacing: '0.05em',
@@ -257,7 +259,7 @@ function AboutContent() {
                 परंपरा
               </h1>
               <h1
-                className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   letterSpacing: '0.05em',
@@ -268,7 +270,7 @@ function AboutContent() {
                 प्रतिष्ठा
               </h1>
               <h1
-                className={`text-5xl md:text-7xl lg:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
+                className={`text-3xl sm:text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-light tracking-wider ${isLoaded ? 'animate-fade-in' : 'opacity-0'}`}
                 style={{
                   fontFamily: '"PP Neue Montreal", sans-serif',
                   letterSpacing: '0.05em',
@@ -281,10 +283,10 @@ function AboutContent() {
             </div>
 
             {/* Subtitle */}
-            <div className="max-w-3xl mx-auto">
+            <div className="max-w-3xl mx-auto px-2 sm:px-4">
               <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: isLoaded ? '1.5s' : '0s' }}>
                 <p
-                  className="text-lg md:text-xl opacity-70 leading-relaxed mb-2"
+                  className="text-base sm:text-lg md:text-xl opacity-70 leading-relaxed mb-2"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   Raised on React, disciplined by bugs, and powered by caffeine.
@@ -292,15 +294,15 @@ function AboutContent() {
               </div>
               <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'}`} style={{ animationDelay: isLoaded ? '1.8s' : '0s' }}>
                 <p
-                  className="text-lg md:text-xl opacity-70 leading-relaxed mb-2"
+                  className="text-base sm:text-lg md:text-xl opacity-70 leading-relaxed mb-2"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   I follow the holy trinity: <span className="text-white/90 font-medium">परंपरा</span> of clean code, <span className="text-white/90 font-medium">प्रतिष्ठा</span> of shipping on time,
                 </p>
               </div>
-              <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'} mb-8`} style={{ animationDelay: isLoaded ? '2.1s' : '0s' }}>
+              <div className={`${isLoaded ? 'animate-fade-in' : 'opacity-0'} mb-6 sm:mb-8`} style={{ animationDelay: isLoaded ? '2.1s' : '0s' }}>
                 <p
-                  className="text-lg md:text-xl opacity-70 leading-relaxed"
+                  className="text-base sm:text-lg md:text-xl opacity-70 leading-relaxed"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   and <span className="text-white/90 font-medium">अनुशासन</span> of not rage-pushing to main.
@@ -313,10 +315,10 @@ function AboutContent() {
         </div>
 
         {/* Philosophy Section */}
-        <div className="min-h-screen flex items-center justify-center px-8" id="philosophy">
+        <div className="min-h-screen py-16 sm:py-20 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="philosophy">
           <div className="max-w-4xl mx-auto text-center">
             <h2
-              className="text-4xl md:text-6xl font-light mb-12 uppercase tracking-wide scroll-reveal"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-8 sm:mb-10 md:mb-12 uppercase tracking-wide scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -325,11 +327,11 @@ function AboutContent() {
               My Philosophy
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-12 text-left">
+            <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 text-left">
               <div className="scroll-reveal" style={{ animationDelay: '0.2s' }}>
                 <div className="scroll-reveal" style={{ animationDelay: '0.3s' }}>
                   <h3
-                    className="text-2xl font-light mb-6 uppercase tracking-wide"
+                    className="text-xl sm:text-2xl font-light mb-4 sm:mb-6 uppercase tracking-wide"
                     style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                   >
                     Design Philosophy
@@ -337,7 +339,7 @@ function AboutContent() {
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '0.4s' }}>
                   <p
-                    className="text-lg opacity-70 leading-relaxed mb-6"
+                    className="text-base sm:text-lg opacity-70 leading-relaxed mb-4 sm:mb-6"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
                     I believe in design with a purpose. No pixel should be just standing there.
@@ -345,7 +347,7 @@ function AboutContent() {
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '0.5s' }}>
                   <p
-                    className="text-lg opacity-70 leading-relaxed mb-6"
+                    className="text-base sm:text-lg opacity-70 leading-relaxed mb-4 sm:mb-6"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
                     I like interfaces that speak before the user even clicks.
@@ -353,7 +355,7 @@ function AboutContent() {
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '0.6s' }}>
                   <p
-                    className="text-lg opacity-70 leading-relaxed"
+                    className="text-base sm:text-lg opacity-70 leading-relaxed"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
                     Simplicity, clarity, and a sprinkle of aesthetic OCD — that&apos;s my UI religion.
@@ -364,7 +366,7 @@ function AboutContent() {
               <div className="scroll-reveal" style={{ animationDelay: '0.7s' }}>
                 <div className="scroll-reveal" style={{ animationDelay: '0.8s' }}>
                   <h3
-                    className="text-2xl font-light mb-6 uppercase tracking-wide"
+                    className="text-xl sm:text-2xl font-light mb-4 sm:mb-6 uppercase tracking-wide"
                     style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                   >
                     Code Craftsmanship
@@ -372,7 +374,7 @@ function AboutContent() {
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '0.9s' }}>
                   <p
-                    className="text-lg opacity-70 leading-relaxed mb-6"
+                    className="text-base sm:text-lg opacity-70 leading-relaxed mb-4 sm:mb-6"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
                     Code is poetry — but with more semicolons and less crying (most days).
@@ -380,7 +382,7 @@ function AboutContent() {
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '1.0s' }}>
                   <p
-                    className="text-lg opacity-70 leading-relaxed mb-6"
+                    className="text-base sm:text-lg opacity-70 leading-relaxed mb-4 sm:mb-6"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
                     I write code that others won&apos;t curse at. Scalable, accessible, fast as hell.
@@ -388,7 +390,7 @@ function AboutContent() {
                 </div>
                 <div className="scroll-reveal" style={{ animationDelay: '1.1s' }}>
                   <p
-                    className="text-lg opacity-70 leading-relaxed"
+                    className="text-base sm:text-lg opacity-70 leading-relaxed"
                     style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                   >
                     If it&apos;s not maintainable, I don&apos;t ship it.
@@ -400,10 +402,10 @@ function AboutContent() {
         </div>
 
         {/* Skills Section */}
-        <div className="min-h-screen flex items-center justify-center px-8" id="skills">
+        <div className="min-h-screen py-16 sm:py-20 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="skills">
           <div className="max-w-6xl mx-auto">
             <h2
-              className="text-4xl md:text-6xl font-light mb-8 uppercase tracking-wide text-center scroll-reveal"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-6 sm:mb-8 uppercase tracking-wide text-center scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -414,24 +416,24 @@ function AboutContent() {
 
 
 
-            <div className="grid md:grid-cols-3 gap-12">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
               {/* Frontend */}
               <div className="text-center scroll-reveal" style={{ animationDelay: '0.4s' }}>
-                <div className="mb-8">
-                  <div className="w-20 h-20 mx-auto mb-6 border border-white/20 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">⚡</span>
+                <div className="mb-6 sm:mb-8">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 border border-white/20 rounded-full flex items-center justify-center">
+                    <span className="text-xl sm:text-2xl">⚡</span>
                   </div>
                   <h3
-                    className="text-2xl font-light mb-6 uppercase tracking-wide"
+                    className="text-xl sm:text-2xl font-light mb-4 sm:mb-6 uppercase tracking-wide"
                     style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                   >
                     Frontend
                   </h3>
                 </div>
                 <div className="text-left">
-                  <div className="scroll-reveal mb-6" style={{ animationDelay: '0.5s' }}>
+                  <div className="scroll-reveal mb-4 sm:mb-6" style={{ animationDelay: '0.5s' }}>
                     <p
-                      className="text-lg opacity-70 leading-relaxed mb-4"
+                      className="text-base sm:text-lg opacity-70 leading-relaxed mb-4"
                       style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                     >
                       Where pixels meet personality. I craft interfaces that don't just look good — they feel alive.
@@ -467,21 +469,21 @@ function AboutContent() {
 
               {/* Backend */}
               <div className="text-center scroll-reveal" style={{ animationDelay: '0.6s' }}>
-                <div className="mb-8">
-                  <div className="w-20 h-20 mx-auto mb-6 border border-white/20 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">⚙️</span>
+                <div className="mb-6 sm:mb-8">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 border border-white/20 rounded-full flex items-center justify-center">
+                    <span className="text-xl sm:text-2xl">⚙️</span>
                   </div>
                   <h3
-                    className="text-2xl font-light mb-6 uppercase tracking-wide"
+                    className="text-xl sm:text-2xl font-light mb-4 sm:mb-6 uppercase tracking-wide"
                     style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                   >
                     Backend
                   </h3>
                 </div>
                 <div className="text-left">
-                  <div className="scroll-reveal mb-6" style={{ animationDelay: '0.7s' }}>
+                  <div className="scroll-reveal mb-4 sm:mb-6" style={{ animationDelay: '0.7s' }}>
                     <p
-                      className="text-lg opacity-70 leading-relaxed mb-4"
+                      className="text-base sm:text-lg opacity-70 leading-relaxed mb-4"
                       style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                     >
                       The engine room where data flows and logic lives. Building the backbone that never breaks.
@@ -517,21 +519,21 @@ function AboutContent() {
 
               {/* Tools */}
               <div className="text-center scroll-reveal" style={{ animationDelay: '0.8s' }}>
-                <div className="mb-8">
-                  <div className="w-20 h-20 mx-auto mb-6 border border-white/20 rounded-full flex items-center justify-center">
-                    <span className="text-2xl">🛠️</span>
+                <div className="mb-6 sm:mb-8">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 mx-auto mb-4 sm:mb-6 border border-white/20 rounded-full flex items-center justify-center">
+                    <span className="text-xl sm:text-2xl">🛠️</span>
                   </div>
                   <h3
-                    className="text-2xl font-light mb-6 uppercase tracking-wide"
+                    className="text-xl sm:text-2xl font-light mb-4 sm:mb-6 uppercase tracking-wide"
                     style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                   >
                     Tools
                   </h3>
                 </div>
                 <div className="text-left">
-                  <div className="scroll-reveal mb-6" style={{ animationDelay: '0.9s' }}>
+                  <div className="scroll-reveal mb-4 sm:mb-6" style={{ animationDelay: '0.9s' }}>
                     <p
-                      className="text-lg opacity-70 leading-relaxed mb-4"
+                      className="text-base sm:text-lg opacity-70 leading-relaxed mb-4"
                       style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                     >
                       The arsenal that keeps me productive and (mostly) sane. These are my daily companions.
@@ -569,10 +571,10 @@ function AboutContent() {
         </div>
 
         {/* Experience Section */}
-        <div className="min-h-screen flex items-center justify-center px-8" id="experience">
+        <div className="min-h-screen py-16 sm:py-20 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="experience">
           <div className="max-w-4xl mx-auto w-full">
             <h2
-              className="text-4xl md:text-6xl font-light uppercase tracking-wide text-center scroll-reveal"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light uppercase tracking-wide text-center scroll-reveal mb-8 sm:mb-12"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -583,8 +585,8 @@ function AboutContent() {
 
             {/* Timeline Container */}
             <div className="relative">
-              {/* Vertical Timeline Line */}
-              <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/30 to-transparent scroll-reveal" style={{ animationDelay: '0.1s' }}>
+              {/* Vertical Timeline Line - Hidden on mobile */}
+              <div className="hidden sm:block absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/30 to-transparent scroll-reveal" style={{ animationDelay: '0.1s' }}>
                 {/* Timeline dot */}
                 <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-white/60 rounded-full border-2 border-white/20 backdrop-blur-sm scroll-reveal" style={{ animationDelay: '0.3s' }}></div>
                 {/* Timeline glow effect */}
@@ -592,18 +594,18 @@ function AboutContent() {
               </div>
 
               {/* Enhanced Experience Content */}
-              <div className="ml-20 w-full">
+              <div className="sm:ml-16 md:ml-20 w-full">
                 {/* Company Logo/Icon */}
-                <div className="scroll-reveal mb-6" style={{ animationDelay: '0.2s' }}>
-                  <div className="w-16 h-16 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-2xl">💻</span>
+                <div className="scroll-reveal mb-4 sm:mb-6" style={{ animationDelay: '0.2s' }}>
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-xl sm:text-2xl">💻</span>
                   </div>
                 </div>
 
               {/* Company Name */}
-              <div className="scroll-reveal mb-4" style={{ animationDelay: '0.3s' }}>
+              <div className="scroll-reveal mb-3 sm:mb-4" style={{ animationDelay: '0.3s' }}>
                 <h3
-                  className="text-3xl font-light uppercase tracking-wide text-white/90"
+                  className="text-2xl sm:text-3xl font-light uppercase tracking-wide text-white/90"
                   style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                 >
                   TechLearn Solutions
@@ -611,9 +613,9 @@ function AboutContent() {
               </div>
 
               {/* Role with Easter Egg Tooltip */}
-              <div className="scroll-reveal mb-4 relative group" style={{ animationDelay: '0.4s' }}>
+              <div className="scroll-reveal mb-3 sm:mb-4 relative group" style={{ animationDelay: '0.4s' }}>
                 <h4
-                  className="text-xl font-medium text-white/80 cursor-help hover:text-white transition-colors duration-300"
+                  className="text-lg sm:text-xl font-medium text-white/80 cursor-help hover:text-white transition-colors duration-300"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   Frontend Intern
@@ -671,10 +673,10 @@ function AboutContent() {
               {/* Toggle Content Section */}
               <div className="scroll-reveal" style={{ animationDelay: '0.8s' }}>
                 {/* Toggle Buttons */}
-                <div className="flex mb-6 bg-white/5 rounded-full p-1 border border-white/10">
+                <div className="flex mb-4 sm:mb-6 bg-white/5 rounded-full p-1 border border-white/10">
                   <button
                     onClick={() => setExperienceView('responsibilities')}
-                    className={`flex-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`flex-1 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
                       experienceView === 'responsibilities'
                         ? 'bg-white/20 text-white shadow-lg'
                         : 'text-white/60 hover:text-white/80'
@@ -685,7 +687,7 @@ function AboutContent() {
                   </button>
                   <button
                     onClick={() => setExperienceView('accomplishments')}
-                    className={`flex-1 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                    className={`flex-1 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
                       experienceView === 'accomplishments'
                         ? 'bg-white/20 text-white shadow-lg'
                         : 'text-white/60 hover:text-white/80'
@@ -697,7 +699,7 @@ function AboutContent() {
                 </div>
 
                 {/* Content Display */}
-                <div className="h-[280px] relative overflow-hidden">
+                <div className="h-auto sm:h-[280px] relative overflow-visible sm:overflow-hidden">
                   <div className={`absolute inset-0 transition-all duration-500 ease-in-out ${
                     experienceView === 'responsibilities'
                       ? 'opacity-100 translate-x-0'
@@ -705,7 +707,7 @@ function AboutContent() {
                   }`}>
                     <div className="space-y-4">
                       <h6
-                        className="text-xl font-medium text-white/90 mb-4"
+                        className="text-lg sm:text-xl font-medium text-white/90 mb-3 sm:mb-4"
                         style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                       >
                         What I Do Daily
@@ -794,10 +796,10 @@ function AboutContent() {
         </div>
 
         {/* Get in Touch Section */}
-        <div className="min-h-screen flex items-center justify-center px-8" id="contact">
+        <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8" id="contact">
           <div className="max-w-4xl mx-auto">
             <h2
-              className="text-4xl md:text-6xl font-light mb-16 uppercase tracking-wide text-center scroll-reveal"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-10 sm:mb-12 md:mb-16 uppercase tracking-wide text-center scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -855,9 +857,9 @@ function AboutContent() {
             </div>
 
             {/* Contact Description */}
-            <div className="text-center mt-16 scroll-reveal" style={{ animationDelay: '0.5s' }}>
+            <div className="text-center mt-10 sm:mt-12 md:mt-16 scroll-reveal px-4" style={{ animationDelay: '0.5s' }}>
               <p
-                className="text-white/70 text-lg max-w-2xl mx-auto leading-relaxed"
+                className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed"
                 style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
               >
                 Ready to collaborate? Whether you have a project in mind, want to discuss opportunities,
@@ -868,8 +870,8 @@ function AboutContent() {
         </div>
       </div>
 
-      {/* Section Navigation Dots */}
-      <div className="fixed right-6 top-1/2 transform -translate-y-1/2 z-20 space-y-6">
+      {/* Section Navigation Dots - Hidden on mobile */}
+      <div className="hidden lg:block fixed right-6 top-1/2 transform -translate-y-1/2 z-20 space-y-6">
         {sections.map((section) => (
           <button
             key={section.id}
@@ -920,8 +922,26 @@ function AboutContent() {
         ))}
       </div>
 
+      {/* Mobile Section Indicator - Minimal and elegant */}
+      <div className="lg:hidden fixed top-1/2 right-3 transform -translate-y-1/2 z-20">
+        <div className="flex flex-col space-y-3">
+          {sections.map((section, index) => (
+            <div
+              key={section.id}
+              className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                activeSection === section.id
+                  ? 'bg-white/90 scale-150'
+                  : 'bg-white/30'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+
+
       {/* Personal Logo */}
-      <div className="fixed top-8 left-8 z-20">
+      <div className="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-20">
         <PersonalLogo
           size="md"
           onClick={toggleNavigation}
@@ -931,6 +951,16 @@ function AboutContent() {
 
       {/* Navigation */}
       <CarouselNavigation isVisible={isNavVisible} />
+
+      {/* Mobile Scroll Hint - Only show on first section */}
+      {isMobile && activeSection === 'hero' && (
+        <div className="mobile-scroll-hint">
+          <div className="flex flex-col items-center">
+            <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>Scroll to explore</span>
+            <div className="mt-1">↓</div>
+          </div>
+        </div>
+      )}
 
       {/* Font imports and animations */}
       <style jsx global>{`
@@ -1142,6 +1172,106 @@ function AboutContent() {
           background: transparent;
           color: white;
           transform: translateY(-2px);
+        }
+
+        /* Mobile-specific improvements */
+        @media (max-width: 640px) {
+          .contact-card {
+            width: 90%;
+            max-width: 320px;
+          }
+
+          .contact-card__avatar {
+            width: 100px;
+            height: 100px;
+          }
+
+          .contact-card__avatar > div {
+            width: 100px !important;
+            height: 100px !important;
+          }
+
+          .contact-card__avatar img {
+            width: 90px !important;
+            height: 90px !important;
+          }
+
+          .contact-card__btn {
+            padding: 8px 16px;
+            font-size: 10px;
+            min-width: 70px;
+          }
+
+          /* Improve touch targets */
+          .nav-button {
+            min-width: 44px;
+            min-height: 44px;
+          }
+
+          /* Better text wrapping on mobile */
+          .hero-subtitle {
+            word-break: keep-all;
+            overflow-wrap: break-word;
+          }
+
+          /* Mobile section spacing */
+          .min-h-screen {
+            min-height: 100vh;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+          }
+
+          /* Ensure content is scrollable */
+          body {
+            overflow-y: auto;
+          }
+
+          /* Mobile grid improvements */
+          .grid {
+            gap: 1.5rem;
+          }
+
+          /* Mobile skills section */
+          .skill-item {
+            font-size: 14px;
+          }
+
+          /* Mobile experience section */
+          .experience-content {
+            padding: 1rem;
+          }
+
+          /* Mobile scroll indicator */
+          .mobile-scroll-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 12px;
+            animation: bounce 2s infinite;
+            z-index: 10;
+          }
+
+          @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+              transform: translateX(-50%) translateY(0);
+            }
+            40% {
+              transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+              transform: translateX(-50%) translateY(-5px);
+            }
+          }
+        }
+
+        /* Tablet improvements */
+        @media (min-width: 641px) and (max-width: 1024px) {
+          .contact-card {
+            width: 85%;
+            max-width: 380px;
+          }
         }
       `}</style>
     </div>
