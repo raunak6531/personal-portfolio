@@ -30,24 +30,24 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Professional Portfolio | Your Name",
+  title: "Professional Portfolio | Raunak Sadana",
   description: "Full Stack Developer specializing in modern web applications. View my projects, skills, and experience.",
   keywords: ["portfolio", "web developer", "full stack", "react", "next.js", "typescript"],
-  authors: [{ name: "Your Name" }],
-  creator: "Your Name",
+  authors: [{ name: "Raunak Sadana" }],
+  creator: "Raunak Sadana",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://yourportfolio.com",
-    title: "Professional Portfolio | Your Name",
+    title: "Professional Portfolio | Raunak Sadana",
     description: "Full Stack Developer specializing in modern web applications.",
-    siteName: "Your Name Portfolio",
+    siteName: "Raunak Sadana Portfolio",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Professional Portfolio | Your Name",
+    title: "Professional Portfolio | Raunak Sadana",
     description: "Full Stack Developer specializing in modern web applications.",
-    creator: "@yourusername",
+    creator: "@raunak6531",
   },
 };
 
