@@ -104,6 +104,11 @@ function AboutContent() {
   const [isLoaded, setIsLoaded] = useState(false);
   const isMobile = useIsMobile();
 
+  // Touch/swipe handling for mobile
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+
   // Define sections for keyboard navigation
   const sections = [
     { id: 'hero', label: 'About', icon: '01' },
@@ -113,6 +118,82 @@ function AboutContent() {
     { id: 'certifications', label: 'Certifications', icon: '05' },
     { id: 'contact', label: 'Contact', icon: '06' }
   ];
+
+  // Swipe navigation functions
+  const navigateToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      setIsScrolling(true);
+      element.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => setIsScrolling(false), 1000);
+    }
+  };
+
+  const navigateToNextSection = () => {
+    const currentIndex = sections.findIndex(section => section.id === activeSection);
+    if (currentIndex < sections.length - 1) {
+      navigateToSection(sections[currentIndex + 1].id);
+    }
+  };
+
+  const navigateToPrevSection = () => {
+    const currentIndex = sections.findIndex(section => section.id === activeSection);
+    if (currentIndex > 0) {
+      navigateToSection(sections[currentIndex - 1].id);
+    }
+  };
+
+  // Touch event handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile || isScrolling) return;
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientY);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile || isScrolling) return;
+    setTouchEnd(e.targetTouches[0].clientY);
+
+    // Prevent default scroll if we detect a potential swipe
+    if (touchStart && Math.abs(touchStart - e.targetTouches[0].clientY) > 30) {
+      e.preventDefault();
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (!isMobile || isScrolling || !touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isUpSwipe = distance > 80; // Increased threshold for better detection
+    const isDownSwipe = distance < -80;
+
+    if (isUpSwipe || isDownSwipe) {
+      // Haptic feedback simulation (vibration if available)
+      if (navigator.vibrate) {
+        navigator.vibrate(50);
+      }
+
+      if (isUpSwipe) {
+        navigateToNextSection();
+      }
+      if (isDownSwipe) {
+        navigateToPrevSection();
+      }
+    }
+  };
+
+  // Wheel event handler for desktop
+  const handleWheel = (e: React.WheelEvent) => {
+    if (isMobile || isScrolling) return;
+
+    e.preventDefault();
+
+    if (e.deltaY > 0) {
+      navigateToNextSection();
+    } else if (e.deltaY < 0) {
+      navigateToPrevSection();
+    }
+  };
 
   // Keyboard navigation handler for sections
   const handleSectionKeyNavigation = (direction: 'up' | 'down') => {
@@ -219,7 +300,13 @@ function AboutContent() {
   }, [activeSection]);
 
   return (
-    <div className="min-h-screen bg-background text-white overflow-hidden relative">
+    <div
+      className="min-h-screen bg-background text-white overflow-hidden relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+      onWheel={handleWheel}
+    >
       {/* Scroll Progress Bar */}
       <div className="fixed top-0 left-0 w-full h-1 bg-white/10 z-30">
         <div
@@ -953,11 +1040,28 @@ function AboutContent() {
       <CarouselNavigation isVisible={isNavVisible} />
 
       {/* Mobile Scroll Hint - Only show on first section */}
-      {isMobile && activeSection === 'hero' && (
+      {isMobile && activeSection === 'hero' && !isScrolling && (
         <div className="mobile-scroll-hint">
           <div className="flex flex-col items-center">
-            <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>Scroll to explore</span>
-            <div className="mt-1">↓</div>
+            <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>Swipe up to explore</span>
+            <div className="mt-1 animate-bounce">↑</div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Swipe Feedback */}
+      {isMobile && isScrolling && (
+        <div className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center">
+          <div className="bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse"></div>
+              <span
+                className="text-sm text-white/80"
+                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
+              >
+                Navigating...
+              </span>
+            </div>
           </div>
         </div>
       )}
@@ -1244,25 +1348,35 @@ function AboutContent() {
           /* Mobile scroll indicator */
           .mobile-scroll-hint {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 12px;
-            animation: bounce 2s infinite;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 13px;
             z-index: 10;
+            text-align: center;
           }
 
-          @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-              transform: translateX(-50%) translateY(0);
-            }
-            40% {
-              transform: translateX(-50%) translateY(-10px);
-            }
-            60% {
-              transform: translateX(-50%) translateY(-5px);
-            }
+          /* Smooth scrolling for mobile */
+          html {
+            scroll-behavior: smooth;
+          }
+
+          /* Prevent overscroll bounce on iOS */
+          body {
+            overscroll-behavior: none;
+          }
+
+          /* Touch action for better swipe detection */
+          .min-h-screen {
+            touch-action: pan-y;
+          }
+
+          /* Swipe feedback animation */
+          @keyframes swipeIndicator {
+            0% { opacity: 0; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.1); }
           }
         }
 
