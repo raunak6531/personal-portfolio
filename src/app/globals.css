@@ -543,6 +543,22 @@ div:focus,
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Enhanced mobile scroll performance */
+  @media (max-width: 768px) {
+    html, body {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+    }
+
+    /* Improve scroll momentum on mobile */
+    .min-h-screen {
+      -webkit-overflow-scrolling: touch;
+      transform: translateZ(0);
+      will-change: transform;
+    }
+  }
+
   /* Mobile navigation improvements */
   .carousel-navigation-mobile {
     max-width: calc(100vw - 2rem);
