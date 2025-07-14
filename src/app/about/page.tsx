@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
 const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
-import TiltedCard from "@/components/ui/TiltedCard";
+
 import { CertificateCarousel } from "@/components/ui/CertificateCarousel";
 
 // Certificate data array

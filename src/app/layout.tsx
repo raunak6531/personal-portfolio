@@ -5,7 +5,6 @@ import "./globals.css";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { PerformanceMonitor } from "@/components/ui/PerformanceMonitor";
-import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -62,14 +61,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${spaceMono.variable} antialiased font-sans bg-background text-foreground`}
       >
-        <ThemeProvider>
-          <PerformanceMonitor />
-          <CustomCursor />
-          <main className="min-h-screen">
-            {children}
-          </main>
-          <BackToTop />
-        </ThemeProvider>
+        <PerformanceMonitor />
+        <CustomCursor />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <BackToTop />
       </body>
     </html>
   );
