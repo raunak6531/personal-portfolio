@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
-import { Button } from "./Button";
+
 
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
@@ -38,14 +38,13 @@ export function BackToTop() {
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.2 }}
         >
-          <Button
+          <button
             onClick={scrollToTop}
-            size="sm"
-            className="rounded-full w-12 h-12 p-0 shadow-large hover:shadow-xl"
+            className="inline-flex items-center justify-center rounded-full w-12 h-12 p-0 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50"
           >
             <ArrowUp className="h-5 w-5" />
             <span className="sr-only">Back to top</span>
-          </Button>
+          </button>
         </motion.div>
       )}
     </AnimatePresence>

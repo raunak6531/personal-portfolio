@@ -43,8 +43,7 @@ export function AnimatedButton({
       className={cn("uiverse relative z-[100]", className)}
       style={{
         minWidth: isMobile ? '140px' : '160px',
-        zIndex: 100,
-        fontSize: isMobile ? '16px' : '18px'
+        zIndex: 100
       }}
     >
       <div className="wrapper">

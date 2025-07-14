@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone, Send } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -219,10 +219,9 @@ export function Contact() {
                   />
                 </div>
 
-                <Button
+                <button
                   type="submit"
-                  size="lg"
-                  className="w-full"
+                  className="w-full inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/50 disabled:opacity-50 disabled:pointer-events-none h-12 px-6 py-3 text-lg bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? (
@@ -240,7 +239,7 @@ export function Contact() {
                       Send Message
                     </>
                   )}
-                </Button>
+                </button>
               </form>
             </motion.div>
           </div>

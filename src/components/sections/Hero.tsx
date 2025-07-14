@@ -6,7 +6,7 @@ import { PersonalLogo } from "@/components/ui/PersonalLogo";
 import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import SplitText from "@/components/ui/SplitText";
 import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
-import { useIsMobile, useIsTablet } from "@/hooks/useMediaQuery";
+import { useIsMobile } from "@/hooks/useMediaQuery";
 import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
@@ -15,12 +15,11 @@ const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 function HeroContent() {
   const { isNavVisible, toggleNavigation } = useNavigation();
   const isMobile = useIsMobile();
-  const isTablet = useIsTablet();
 
   return (
-    <section id="home" className="h-screen flex items-center justify-center relative overflow-hidden bg-background">
-      {/* Subtle Silk Background */}
-      <div className="absolute inset-0 opacity-30">
+    <section id="home" className="h-screen relative overflow-hidden bg-background">
+      {/* Silk Background - Absolutely positioned with z-0 */}
+      <div className="absolute inset-0 z-0 opacity-30">
         <Silk
           speed={2}
           scale={0.8}
@@ -32,7 +31,7 @@ function HeroContent() {
 
       {/* Enhanced Animated background elements - Hidden on mobile for performance */}
       {!isMobile && (
-        <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           {/* Dynamic colorful animated lines */}
           <motion.div
             className="absolute top-20 left-1/4 w-1 h-32 bg-gradient-to-b from-purple-500 to-transparent"
@@ -141,12 +140,13 @@ function HeroContent() {
         </div>
       )}
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className={`text-center ${isMobile ? 'space-y-8' : 'space-y-12'}`}>
+      {/* Main Hero Content - Mobile-first responsive design */}
+      <div className="flex items-center justify-center text-center h-full relative z-10">
+        <div className="px-6 sm:px-8 md:px-12 lg:px-24 max-w-4xl mx-auto">
           {/* Main Content with Split Text Only */}
-          <div className={`space-y-${isMobile ? '4' : '6'}`}>
+          <div className="space-y-6 md:space-y-8">
             {/* Animated Heading */}
-            <div className={`${isMobile ? 'text-3xl' : 'text-4xl sm:text-5xl lg:text-6xl'} font-bold text-white leading-tight hero-text`}>
+            <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight hero-text">
               <SplitText
                 text="Hey I'm Raunak,"
                 className="block"
@@ -160,7 +160,7 @@ function HeroContent() {
                 animationDelay={0.5}
               />
               {isMobile ? (
-                <div className="block text-muted-foreground mt-2 text-2xl leading-tight px-2 hero-subtitle">
+                <div className="block text-muted-foreground mt-2 text-lg sm:text-xl leading-tight hero-subtitle px-4">
                   <SplitText
                     text="your friendly"
                     className="inline"
@@ -188,26 +188,28 @@ function HeroContent() {
                   />
                 </div>
               ) : (
-                <SplitText
-                  text="your friendly neighbourhood developer"
-                  className="block text-muted-foreground mt-2"
-                  splitType="chars"
-                  delay={30}
-                  duration={0.6}
-                  from={{ opacity: 0, scale: 0, rotation: 180 }}
-                  to={{ opacity: 1, scale: 1, rotation: 0 }}
-                  ease="elastic.out(1, 0.3)"
-                  triggerOnMount={true}
-                  animationDelay={1.2}
-                />
+                <div className="block text-muted-foreground mt-2 text-2xl md:text-3xl lg:text-4xl leading-tight hero-subtitle">
+                  <SplitText
+                    text="your friendly neighbourhood developer"
+                    className="inline"
+                    splitType="chars"
+                    delay={30}
+                    duration={0.6}
+                    from={{ opacity: 0, scale: 0, rotation: 180 }}
+                    to={{ opacity: 1, scale: 1, rotation: 0 }}
+                    ease="elastic.out(1, 0.3)"
+                    triggerOnMount={true}
+                    animationDelay={1.2}
+                  />
+                </div>
               )}
             </div>
 
             {/* Animated Description */}
-            <div>
+            <div className="px-4 sm:px-0">
               <SplitText
                 text="Front-end developer by day, UI wizard by night. I indulge in crafting snappy interfaces turning caffeine and code into pixel-perfect experiences. Bonus: I speak fluent React and sarcasm."
-                className={`${isMobile ? 'text-base px-4' : 'text-lg sm:text-xl'} text-muted-foreground max-w-3xl mx-auto leading-relaxed hero-text`}
+                className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed hero-text max-w-3xl mx-auto"
                 splitType="words"
                 delay={isMobile ? 30 : 20}
                 duration={0.5}
@@ -220,33 +222,32 @@ function HeroContent() {
             </div>
           </div>
 
-          {/* Animated Resume Button */}
-          <div className="flex justify-center">
+          {/* Animated Resume Button - Centered with responsive padding and font sizes */}
+          <div className="flex justify-center mt-8 md:mt-12">
             <AnimatedButton
               href="/finalresume.pdf"
               download={true}
               downloadFileName="Raunak_Resume.pdf"
+              className="text-sm sm:text-base md:text-lg px-6 sm:px-8 md:px-10 py-3 sm:py-4"
             >
               Resume
             </AnimatedButton>
           </div>
-
-          {/* Personal Logo */}
-          <div className={`fixed ${isMobile ? 'top-6 left-6' : 'top-8 left-8'} z-20`}>
-            <PersonalLogo
-              size={isMobile ? "sm" : "md"}
-              onClick={toggleNavigation}
-              isToggled={!isNavVisible}
-            />
-          </div>
-
-          {/* Navigation is now fixed at bottom */}
-          <CarouselNavigation isVisible={isNavVisible} />
-
-
-
-
         </div>
+      </div>
+
+      {/* Personal Logo - Responsive size using useIsMobile hook */}
+      <div className="fixed top-6 sm:top-8 left-6 sm:left-8 z-20">
+        <PersonalLogo
+          size={isMobile ? "sm" : "md"}
+          onClick={toggleNavigation}
+          isToggled={!isNavVisible}
+        />
+      </div>
+
+      {/* CarouselNavigation - Below content with proper margin */}
+      <div className="mt-12 md:mt-16">
+        <CarouselNavigation isVisible={isNavVisible} />
       </div>
     </section>
   );
