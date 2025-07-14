@@ -124,13 +124,8 @@ function AboutContent() {
     const element = document.getElementById(sectionId);
     if (element) {
       setIsScrolling(true);
-      element.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'nearest'
-      });
-      // Reduced timeout for faster response on mobile
-      setTimeout(() => setIsScrolling(false), 600);
+      element.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => setIsScrolling(false), 1000);
     }
   };
 
@@ -159,8 +154,8 @@ function AboutContent() {
     if (!isMobile || isScrolling) return;
     setTouchEnd(e.targetTouches[0].clientY);
 
-    // Prevent default scroll if we detect a potential swipe with lower threshold
-    if (touchStart && Math.abs(touchStart - e.targetTouches[0].clientY) > 20) {
+    // Prevent default scroll if we detect a potential swipe
+    if (touchStart && Math.abs(touchStart - e.targetTouches[0].clientY) > 30) {
       e.preventDefault();
     }
   };
@@ -169,13 +164,13 @@ function AboutContent() {
     if (!isMobile || isScrolling || !touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
-    const isUpSwipe = distance > 60; // Reduced threshold for more responsive detection
-    const isDownSwipe = distance < -60;
+    const isUpSwipe = distance > 80; // Increased threshold for better detection
+    const isDownSwipe = distance < -80;
 
     if (isUpSwipe || isDownSwipe) {
       // Haptic feedback simulation (vibration if available)
       if (navigator.vibrate) {
-        navigator.vibrate(30); // Shorter vibration for smoother feel
+        navigator.vibrate(50);
       }
 
       if (isUpSwipe) {
@@ -1054,7 +1049,22 @@ function AboutContent() {
         </div>
       )}
 
-
+      {/* Mobile Swipe Feedback */}
+      {isMobile && isScrolling && (
+        <div className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center">
+          <div className="bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse"></div>
+              <span
+                className="text-sm text-white/80"
+                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
+              >
+                Navigating...
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Font imports and animations */}
       <style jsx global>{`
@@ -1347,37 +1357,19 @@ function AboutContent() {
             text-align: center;
           }
 
-          /* Enhanced smooth scrolling for mobile */
+          /* Smooth scrolling for mobile */
           html {
             scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
           }
 
           /* Prevent overscroll bounce on iOS */
           body {
             overscroll-behavior: none;
-            -webkit-overflow-scrolling: touch;
           }
 
-          /* Improved touch action for better swipe detection */
+          /* Touch action for better swipe detection */
           .min-h-screen {
             touch-action: pan-y;
-            -webkit-overflow-scrolling: touch;
-          }
-
-          /* Smooth transitions for mobile sections */
-          @media (max-width: 768px) {
-            * {
-              -webkit-overflow-scrolling: touch;
-              scroll-behavior: smooth;
-            }
-
-            /* Optimize scroll performance */
-            .section {
-              transform: translateZ(0);
-              -webkit-transform: translateZ(0);
-              will-change: transform;
-            }
           }
 
           /* Swipe feedback animation */
