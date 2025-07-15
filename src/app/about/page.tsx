@@ -307,8 +307,8 @@ function AboutContent() {
       onTouchEnd={handleTouchEnd}
       onWheel={handleWheel}
     >
-      {/* Scroll Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-1 bg-white/10 z-30">
+      {/* Scroll Progress Bar - Hidden on mobile */}
+      <div className="hidden sm:block fixed top-0 left-0 w-full h-1 bg-white/10 z-30">
         <div
           ref={progressRef}
           className="h-full bg-white/60 transition-all duration-100 ease-out"
@@ -402,7 +402,7 @@ function AboutContent() {
         </div>
 
         {/* Philosophy Section */}
-        <div className="min-h-screen py-16 sm:py-20 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="philosophy">
+        <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8" id="philosophy">
           <div className="max-w-4xl mx-auto text-center">
             <h2
               className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-8 sm:mb-10 md:mb-12 uppercase tracking-wide scroll-reveal"
@@ -414,7 +414,7 @@ function AboutContent() {
               My Philosophy
             </h2>
 
-            <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 text-left">
+            <div className="grid md:grid-cols-2 gap-8 sm:gap-10 md:gap-12 text-center md:text-left">
               <div className="scroll-reveal" style={{ animationDelay: '0.2s' }}>
                 <div className="scroll-reveal" style={{ animationDelay: '0.3s' }}>
                   <h3
@@ -1030,7 +1030,7 @@ function AboutContent() {
       {/* Personal Logo */}
       <div className="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-20">
         <PersonalLogo
-          size="md"
+          size={isMobile ? "sm" : "md"}
           onClick={toggleNavigation}
           isToggled={!isNavVisible}
         />
