@@ -211,13 +211,13 @@ function AboutContent() {
     if (!touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
+    const isLeftSwipe = distance > 50;   // Swipe left = next skill
+    const isRightSwipe = distance < -50; // Swipe right = previous skill
 
     if (isLeftSwipe) {
-      nextSkill();
+      nextSkill(); // Swipe left → next skill
     } else if (isRightSwipe) {
-      prevSkill();
+      prevSkill(); // Swipe right → previous skill
     }
 
     // Hide hint after first swipe
@@ -736,7 +736,7 @@ function AboutContent() {
             </div>
 
             {/* Mobile Skill Carousel */}
-            <div className="md:hidden px-4 sm:px-6">
+            <div className="md:hidden px-4">
               {/* Carousel Container */}
               <div className="relative carousel-container">
                 {/* Main Skill Card */}
@@ -785,13 +785,13 @@ function AboutContent() {
                             {/* Main Content */}
                             <div className="text-center space-y-4">
                               <h3
-                                className="text-2xl sm:text-3xl font-light tracking-wide"
+                                className="text-2xl font-light tracking-wide"
                                 style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                               >
                                 {skill.skill}
                               </h3>
                               <p
-                                className="text-lg opacity-70 italic"
+                                className="text-base opacity-70 italic"
                                 style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                               >
                                 {skill.desc}
@@ -831,7 +831,7 @@ function AboutContent() {
 
 
               {/* Category Filter */}
-              <div className="flex justify-center mt-6 space-x-4">
+              <div className="flex justify-center mt-6 gap-2 px-2">
                 {['Frontend', 'Backend', 'Tools'].map((category) => (
                   <button
                     key={category}
@@ -839,7 +839,7 @@ function AboutContent() {
                       const firstSkillIndex = allSkills.findIndex(skill => skill.category === category);
                       if (firstSkillIndex !== -1) goToSkill(firstSkillIndex);
                     }}
-                    className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider transition-all duration-300 category-filter ${
+                    className={`px-3 py-2 rounded-full text-xs uppercase tracking-wider transition-all duration-300 category-filter whitespace-nowrap flex-shrink-0 ${
                       allSkills[currentSkillIndex]?.category === category
                         ? 'bg-white/20 text-white border border-white/30'
                         : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80'
@@ -855,10 +855,10 @@ function AboutContent() {
         </div>
 
         {/* Experience Section */}
-        <div className="min-h-screen py-16 sm:py-20 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="experience">
+        <div className="min-h-screen py-16 md:py-0 md:flex md:items-center justify-center px-4 md:px-8" id="experience">
           <div className="max-w-4xl mx-auto w-full">
             <h2
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light uppercase tracking-wide text-center scroll-reveal mb-8 sm:mb-12"
+              className="text-3xl md:text-4xl lg:text-6xl font-light uppercase tracking-wide text-center scroll-reveal mb-8 md:mb-12"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -870,7 +870,7 @@ function AboutContent() {
             {/* Timeline Container */}
             <div className="relative">
               {/* Vertical Timeline Line - Hidden on mobile */}
-              <div className="hidden sm:block absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/30 to-transparent scroll-reveal" style={{ animationDelay: '0.1s' }}>
+              <div className="hidden md:block absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/30 to-transparent scroll-reveal" style={{ animationDelay: '0.1s' }}>
                 {/* Timeline dot */}
                 <div className="absolute top-8 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-white/60 rounded-full border-2 border-white/20 backdrop-blur-sm scroll-reveal" style={{ animationDelay: '0.3s' }}></div>
                 {/* Timeline glow effect */}
@@ -878,18 +878,18 @@ function AboutContent() {
               </div>
 
               {/* Enhanced Experience Content */}
-              <div className="sm:ml-16 md:ml-20 w-full">
+              <div className="md:ml-20 w-full">
                 {/* Company Logo/Icon */}
-                <div className="scroll-reveal mb-4 sm:mb-6" style={{ animationDelay: '0.2s' }}>
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-xl sm:text-2xl">💻</span>
+                <div className="scroll-reveal mb-4" style={{ animationDelay: '0.2s' }}>
+                  <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-2xl">💻</span>
                   </div>
                 </div>
 
               {/* Company Name */}
-              <div className="scroll-reveal mb-3 sm:mb-4" style={{ animationDelay: '0.3s' }}>
+              <div className="scroll-reveal mb-3" style={{ animationDelay: '0.3s' }}>
                 <h3
-                  className="text-2xl sm:text-3xl font-light uppercase tracking-wide text-white/90"
+                  className="text-2xl font-light uppercase tracking-wide text-white/90"
                   style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                 >
                   TechLearn Solutions
@@ -897,9 +897,9 @@ function AboutContent() {
               </div>
 
               {/* Role with Easter Egg Tooltip */}
-              <div className="scroll-reveal mb-3 sm:mb-4 relative group" style={{ animationDelay: '0.4s' }}>
+              <div className="scroll-reveal mb-3 relative group" style={{ animationDelay: '0.4s' }}>
                 <h4
-                  className="text-lg sm:text-xl font-medium text-white/80 cursor-help hover:text-white transition-colors duration-300"
+                  className="text-lg font-medium text-white/80 cursor-help hover:text-white transition-colors duration-300"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   Frontend Intern
@@ -957,10 +957,10 @@ function AboutContent() {
               {/* Toggle Content Section */}
               <div className="scroll-reveal" style={{ animationDelay: '0.8s' }}>
                 {/* Toggle Buttons */}
-                <div className="flex mb-4 sm:mb-6 bg-white/5 rounded-full p-1 border border-white/10">
+                <div className="flex mb-4 bg-white/5 rounded-full p-1 border border-white/10">
                   <button
                     onClick={() => setExperienceView('responsibilities')}
-                    className={`flex-1 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+                    className={`flex-1 px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
                       experienceView === 'responsibilities'
                         ? 'bg-white/20 text-white shadow-lg'
                         : 'text-white/60 hover:text-white/80'
@@ -971,7 +971,7 @@ function AboutContent() {
                   </button>
                   <button
                     onClick={() => setExperienceView('accomplishments')}
-                    className={`flex-1 px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+                    className={`flex-1 px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
                       experienceView === 'accomplishments'
                         ? 'bg-white/20 text-white shadow-lg'
                         : 'text-white/60 hover:text-white/80'
@@ -983,20 +983,20 @@ function AboutContent() {
                 </div>
 
                 {/* Content Display */}
-                <div className="h-auto sm:h-[280px] relative overflow-visible sm:overflow-hidden">
-                  <div className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+                <div className="h-auto md:h-[280px] relative overflow-visible md:overflow-hidden">
+                  <div className={`md:absolute md:inset-0 transition-all duration-500 ease-in-out ${
                     experienceView === 'responsibilities'
                       ? 'opacity-100 translate-x-0'
-                      : 'opacity-0 translate-x-[-20px] pointer-events-none'
+                      : 'opacity-0 translate-x-[-20px] pointer-events-none md:block hidden'
                   }`}>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <h6
-                        className="text-lg sm:text-xl font-medium text-white/90 mb-3 sm:mb-4"
+                        className="text-lg font-medium text-white/90 mb-3"
                         style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                       >
                         What I Do Daily
                       </h6>
-                      <ul className="space-y-4">
+                      <ul className="space-y-3">
                         {[
                           'Build responsive React components that actually work on all devices (yes, even Internet Explorer... just kidding)',
                           'Transform Figma designs into pixel-perfect interfaces using Tailwind CSS',
@@ -1009,27 +1009,27 @@ function AboutContent() {
                             className="flex items-start opacity-80 hover:opacity-100 transition-opacity duration-300"
                             style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                           >
-                            <span className="text-white/60 mr-3 mt-1 text-lg">•</span>
-                            <span className="leading-relaxed text-base">{item}</span>
+                            <span className="text-white/60 mr-3 mt-1 text-base">•</span>
+                            <span className="leading-relaxed text-sm">{item}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                   </div>
 
-                  <div className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+                  <div className={`md:absolute md:inset-0 transition-all duration-500 ease-in-out ${
                     experienceView === 'accomplishments'
                       ? 'opacity-100 translate-x-0'
-                      : 'opacity-0 translate-x-[20px] pointer-events-none'
+                      : 'opacity-0 translate-x-[20px] pointer-events-none md:block hidden'
                   }`}>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <h6
-                        className="text-xl font-medium text-white/90 mb-4"
+                        className="text-lg font-medium text-white/90 mb-3"
                         style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                       >
                         Wins & Achievements
                       </h6>
-                      <ul className="space-y-4">
+                      <ul className="space-y-3">
                         {[
                           'Successfully implemented responsive design patterns that improved mobile user experience',
                           'Reduced component rendering time by optimizing React component structure',
@@ -1042,8 +1042,8 @@ function AboutContent() {
                             className="flex items-start opacity-80 hover:opacity-100 transition-opacity duration-300"
                             style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                           >
-                            <span className="text-green-400/60 mr-3 mt-1 text-lg">✓</span>
-                            <span className="leading-relaxed text-base">{item}</span>
+                            <span className="text-green-400/60 mr-3 mt-1 text-base">✓</span>
+                            <span className="leading-relaxed text-sm">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -1060,7 +1060,7 @@ function AboutContent() {
         <div className="min-h-screen flex items-center justify-center px-4" id="certifications">
           <div className="max-w-7xl mx-auto w-full">
             <h2
-              className="text-4xl md:text-6xl font-light mb-16 uppercase tracking-wide text-center scroll-reveal"
+              className="text-3xl md:text-4xl lg:text-6xl font-light mb-8 md:mb-16 uppercase tracking-wide text-center scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -1080,10 +1080,10 @@ function AboutContent() {
         </div>
 
         {/* Get in Touch Section */}
-        <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 md:px-8" id="contact">
+        <div className="min-h-screen flex items-center justify-center px-4 md:px-8" id="contact">
           <div className="max-w-4xl mx-auto">
             <h2
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-10 sm:mb-12 md:mb-16 uppercase tracking-wide text-center scroll-reveal"
+              className="text-3xl md:text-4xl lg:text-6xl font-light mb-8 md:mb-16 uppercase tracking-wide text-center scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -1141,9 +1141,9 @@ function AboutContent() {
             </div>
 
             {/* Contact Description */}
-            <div className="text-center mt-10 sm:mt-12 md:mt-16 scroll-reveal px-4" style={{ animationDelay: '0.5s' }}>
+            <div className="text-center mt-8 md:mt-16 scroll-reveal" style={{ animationDelay: '0.5s' }}>
               <p
-                className="text-white/70 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed"
+                className="text-white/70 text-base max-w-2xl mx-auto leading-relaxed"
                 style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
               >
                 Ready to collaborate? Whether you have a project in mind, want to discuss opportunities,
