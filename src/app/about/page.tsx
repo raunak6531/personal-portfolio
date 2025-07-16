@@ -108,6 +108,18 @@ function AboutContent() {
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [expandedSkillSection, setExpandedSkillSection] = useState<string | null>(null);
+  const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+
+  // Auto-hide swipe hint after 4 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSwipeHint(false);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Define sections for keyboard navigation
   const sections = [
@@ -141,6 +153,75 @@ function AboutContent() {
     if (currentIndex > 0) {
       navigateToSection(sections[currentIndex - 1].id);
     }
+  };
+
+  // Skills accordion toggle
+  const toggleSkillSection = (sectionId: string) => {
+    setExpandedSkillSection(expandedSkillSection === sectionId ? null : sectionId);
+  };
+
+  // All skills flattened for carousel
+  const allSkills = [
+    // Frontend
+    { skill: 'React & Next.js', desc: 'The dynamic duo', category: 'Frontend', icon: '⚡', color: 'from-blue-500/20 to-cyan-500/20' },
+    { skill: 'TypeScript', desc: 'JavaScript with trust issues', category: 'Frontend', icon: '⚡', color: 'from-blue-500/20 to-indigo-500/20' },
+    { skill: 'Tailwind CSS', desc: 'The utility king', category: 'Frontend', icon: '⚡', color: 'from-cyan-500/20 to-teal-500/20' },
+    { skill: 'Framer Motion', desc: 'Where UI starts to dance', category: 'Frontend', icon: '⚡', color: 'from-purple-500/20 to-pink-500/20' },
+    { skill: 'Three.js', desc: 'When 2D isn\'t enough', category: 'Frontend', icon: '⚡', color: 'from-green-500/20 to-emerald-500/20' },
+    // Backend
+    { skill: 'Node.js', desc: 'JavaScript everywhere', category: 'Backend', icon: '⚙️', color: 'from-green-500/20 to-lime-500/20' },
+    { skill: 'Python', desc: 'The Swiss Army knife', category: 'Backend', icon: '⚙️', color: 'from-yellow-500/20 to-orange-500/20' },
+    { skill: 'PostgreSQL', desc: 'Relational reliability', category: 'Backend', icon: '⚙️', color: 'from-blue-500/20 to-sky-500/20' },
+    { skill: 'MongoDB', desc: 'NoSQL freedom', category: 'Backend', icon: '⚙️', color: 'from-green-500/20 to-teal-500/20' },
+    { skill: 'REST APIs', desc: 'The universal language', category: 'Backend', icon: '⚙️', color: 'from-orange-500/20 to-red-500/20' },
+    // Tools
+    { skill: 'Git & GitHub', desc: 'Version control savior', category: 'Tools', icon: '🛠️', color: 'from-gray-500/20 to-slate-500/20' },
+    { skill: 'Vite', desc: 'Lightning-fast builds', category: 'Tools', icon: '🛠️', color: 'from-purple-500/20 to-violet-500/20' },
+    { skill: 'Vercel', desc: 'Deploy with confidence', category: 'Tools', icon: '🛠️', color: 'from-black/20 to-gray-500/20' },
+    { skill: 'Figma', desc: 'Design-dev bridge', category: 'Tools', icon: '🛠️', color: 'from-pink-500/20 to-rose-500/20' },
+    { skill: 'VS Code', desc: 'Home sweet home', category: 'Tools', icon: '🛠️', color: 'from-blue-500/20 to-cyan-500/20' }
+  ];
+
+  // Carousel navigation
+  const nextSkill = () => {
+    setCurrentSkillIndex((prev) => (prev + 1) % allSkills.length);
+    setShowSwipeHint(false);
+  };
+
+  const prevSkill = () => {
+    setCurrentSkillIndex((prev) => (prev - 1 + allSkills.length) % allSkills.length);
+    setShowSwipeHint(false);
+  };
+
+  const goToSkill = (index: number) => {
+    setCurrentSkillIndex(index);
+    setShowSwipeHint(false);
+  };
+
+  // Touch/swipe support for carousel
+  const handleCarouselTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleCarouselTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleCarouselTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe) {
+      nextSkill();
+    } else if (isRightSwipe) {
+      prevSkill();
+    }
+
+    // Hide hint after first swipe
+    setShowSwipeHint(false);
   };
 
   // Touch event handlers
@@ -489,10 +570,10 @@ function AboutContent() {
         </div>
 
         {/* Skills Section */}
-        <div className="min-h-screen py-16 sm:py-20 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="skills">
-          <div className="max-w-6xl mx-auto">
+        <div className="min-h-screen py-16 md:py-0 md:flex md:items-center justify-center px-4 sm:px-6 md:px-8" id="skills">
+          <div className="max-w-4xl mx-auto w-full flex flex-col justify-center min-h-screen md:min-h-0">
             <h2
-              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-6 sm:mb-8 uppercase tracking-wide text-center scroll-reveal"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-light mb-8 sm:mb-12 uppercase tracking-wide text-center scroll-reveal"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -501,9 +582,8 @@ function AboutContent() {
               The Stack That Powers the Madness
             </h2>
 
-
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 md:gap-12">
+            {/* Desktop Grid Layout */}
+            <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
               {/* Frontend */}
               <div className="text-center scroll-reveal" style={{ animationDelay: '0.4s' }}>
                 <div className="mb-6 sm:mb-8">
@@ -652,6 +732,123 @@ function AboutContent() {
                     ))}
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Mobile Skill Carousel */}
+            <div className="md:hidden px-4 sm:px-6">
+              {/* Carousel Container */}
+              <div className="relative carousel-container">
+                {/* Main Skill Card */}
+                <div
+                  className="overflow-hidden rounded-3xl"
+                  onTouchStart={handleCarouselTouchStart}
+                  onTouchMove={handleCarouselTouchMove}
+                  onTouchEnd={handleCarouselTouchEnd}
+                >
+                  <div
+                    className="flex transition-transform duration-500 ease-out skill-carousel"
+                    style={{ transform: `translateX(-${currentSkillIndex * 100}%)` }}
+                  >
+                    {allSkills.map((skill, index) => (
+                      <div
+                        key={`${skill.category}-${skill.skill}`}
+                        className="w-full flex-shrink-0 px-2"
+                      >
+                        <div className={`relative h-80 rounded-2xl backdrop-blur-sm bg-gradient-to-br ${skill.color} border border-white/10 overflow-hidden group hover:border-white/20 transition-all duration-300 skill-card`}>
+                          {/* Background Pattern */}
+                          <div className="absolute inset-0 opacity-5">
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent"></div>
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
+                            <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full blur-2xl"></div>
+                          </div>
+
+                          {/* Content */}
+                          <div className="relative z-10 p-6 h-full flex flex-col justify-between">
+                            {/* Header */}
+                            <div className="flex items-start justify-between">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center">
+                                  <span className="text-xl">{skill.icon}</span>
+                                </div>
+                                <div>
+                                  <div className="text-xs opacity-60 uppercase tracking-wider font-light">
+                                    {skill.category}
+                                  </div>
+                                  <div className="text-xs opacity-40 mt-1">
+                                    {index + 1} of {allSkills.length}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Main Content */}
+                            <div className="text-center space-y-4">
+                              <h3
+                                className="text-2xl sm:text-3xl font-light tracking-wide"
+                                style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
+                              >
+                                {skill.skill}
+                              </h3>
+                              <p
+                                className="text-lg opacity-70 italic"
+                                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
+                              >
+                                {skill.desc}
+                              </p>
+                            </div>
+
+                            {/* Footer */}
+                            <div className="flex justify-center">
+                              <div className="w-16 h-1 bg-white/20 rounded-full overflow-hidden">
+                                <div
+                                  className="h-full bg-white/60 rounded-full transition-all duration-300"
+                                  style={{ width: `${((index + 1) / allSkills.length) * 100}%` }}
+                                ></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Swipe Hint */}
+                {showSwipeHint && (
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center space-x-2 text-white/40 text-xs animate-pulse transition-opacity duration-500">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                    </svg>
+                    <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>Swipe to explore</span>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+
+
+
+              {/* Category Filter */}
+              <div className="flex justify-center mt-6 space-x-4">
+                {['Frontend', 'Backend', 'Tools'].map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => {
+                      const firstSkillIndex = allSkills.findIndex(skill => skill.category === category);
+                      if (firstSkillIndex !== -1) goToSkill(firstSkillIndex);
+                    }}
+                    className={`px-4 py-2 rounded-full text-xs uppercase tracking-wider transition-all duration-300 category-filter ${
+                      allSkills[currentSkillIndex]?.category === category
+                        ? 'bg-white/20 text-white border border-white/30'
+                        : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10 hover:text-white/80'
+                    }`}
+                    style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
@@ -1338,6 +1535,84 @@ function AboutContent() {
           /* Mobile skills section */
           .skill-item {
             font-size: 14px;
+          }
+
+          /* Prevent text cutoff in mobile skills */
+          .mobile-skill-card {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
+          }
+
+          .mobile-skill-text {
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          /* Better mobile accordion spacing */
+          @media (max-width: 480px) {
+            .mobile-skill-card {
+              padding: 0.75rem;
+            }
+
+            .skill-item {
+              font-size: 13px;
+            }
+          }
+
+          /* Skill Carousel Optimizations */
+          .skill-carousel {
+            will-change: transform;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+          }
+
+          .skill-card {
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+          }
+
+          .skill-card:hover {
+            transform: translateY(-2px);
+          }
+
+          /* Smooth carousel transitions */
+          .carousel-container {
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
+          }
+
+          /* Navigation button animations */
+          .nav-button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          .nav-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+          }
+
+          .nav-button:active {
+            transform: scale(0.95);
+          }
+
+          /* Dot indicator animations */
+          .dot-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          .dot-indicator:hover {
+            transform: scale(1.2);
+          }
+
+          /* Category filter animations */
+          .category-filter {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+
+          .category-filter:hover {
+            transform: translateY(-1px);
           }
 
           /* Mobile experience section */
