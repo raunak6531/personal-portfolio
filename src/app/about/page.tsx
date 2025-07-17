@@ -242,11 +242,11 @@ function AboutContent() {
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    if (!isMobile || isScrolling) return;
+    if (!isMobile) return;
     setTouchEnd(e.targetTouches[0].clientY);
 
     // Prevent default scroll if we detect a potential swipe
-    if (touchStart && Math.abs(touchStart - e.targetTouches[0].clientY) > 30) {
+    if (touchStart && Math.abs(touchStart - e.targetTouches[0].clientY) > 20) {
       e.preventDefault();
     }
   };
@@ -255,13 +255,13 @@ function AboutContent() {
     if (!isMobile || !touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
-    const isUpSwipe = distance > 80; // Increased threshold for better detection
-    const isDownSwipe = distance < -80;
+    const isUpSwipe = distance > 60; // Reduced threshold for better responsiveness
+    const isDownSwipe = distance < -60;
 
     if (isUpSwipe || isDownSwipe) {
       // Haptic feedback simulation (vibration if available)
       if (navigator.vibrate) {
-        navigator.vibrate(50);
+        navigator.vibrate(30);
       }
 
       if (isUpSwipe) {
@@ -271,6 +271,10 @@ function AboutContent() {
         navigateToPrevSection();
       }
     }
+
+    // Reset touch states
+    setTouchStart(null);
+    setTouchEnd(null);
   };
 
   // Wheel event handler for desktop
@@ -1257,6 +1261,17 @@ function AboutContent() {
         </div>
       )}
 
+      {/* R Button Hint - Subtle and elegant */}
+      <div className="fixed top-4 right-4 sm:top-6 sm:right-6 md:top-8 md:right-8 z-10 opacity-60 hover:opacity-100 transition-all duration-300 animate-pulse hover:animate-none">
+        <div className="flex items-center space-x-2 text-white/50 text-xs">
+          <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>Press</span>
+          <div className="px-2 py-1 bg-white/10 rounded border border-white/20 backdrop-blur-sm hover:bg-white/20 hover:border-white/30 transition-all duration-300">
+            <span className="font-mono text-white/70 hover:text-white/90">R</span>
+          </div>
+          <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>for menu</span>
+        </div>
+      </div>
+
 
 
       {/* Font imports and animations */}
@@ -1641,6 +1656,21 @@ function AboutContent() {
           /* Touch action for better swipe detection */
           .min-h-screen {
             touch-action: pan-y;
+          }
+
+          /* Ensure full-screen touch responsiveness */
+          body, html {
+            touch-action: manipulation;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+          }
+
+          /* Better touch handling for mobile */
+          @media (max-width: 768px) {
+            * {
+              -webkit-tap-highlight-color: transparent;
+            }
           }
 
           /* Swipe feedback animation */
