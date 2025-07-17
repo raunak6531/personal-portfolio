@@ -135,9 +135,7 @@ function AboutContent() {
   const navigateToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      setIsScrolling(true);
       element.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => setIsScrolling(false), 1000);
     }
   };
 
@@ -199,18 +197,26 @@ function AboutContent() {
   };
 
   // Touch/swipe support for carousel
+  const [carouselTouchStart, setCarouselTouchStart] = useState<number | null>(null);
+  const [carouselTouchEnd, setCarouselTouchEnd] = useState<number | null>(null);
+
   const handleCarouselTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
+    e.stopPropagation(); // Prevent section navigation
+    setCarouselTouchStart(e.targetTouches[0].clientX);
+    setCarouselTouchEnd(null);
   };
 
   const handleCarouselTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
+    e.stopPropagation(); // Prevent section navigation
+    setCarouselTouchEnd(e.targetTouches[0].clientX);
   };
 
-  const handleCarouselTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
+  const handleCarouselTouchEnd = (e: React.TouchEvent) => {
+    e.stopPropagation(); // Prevent section navigation
 
-    const distance = touchStart - touchEnd;
+    if (!carouselTouchStart || !carouselTouchEnd) return;
+
+    const distance = carouselTouchStart - carouselTouchEnd;
     const isLeftSwipe = distance > 50;   // Swipe left = next skill
     const isRightSwipe = distance < -50; // Swipe right = previous skill
 
@@ -222,11 +228,15 @@ function AboutContent() {
 
     // Hide hint after first swipe
     setShowSwipeHint(false);
+
+    // Reset touch states
+    setCarouselTouchStart(null);
+    setCarouselTouchEnd(null);
   };
 
   // Touch event handlers
   const handleTouchStart = (e: React.TouchEvent) => {
-    if (!isMobile || isScrolling) return;
+    if (!isMobile) return;
     setTouchEnd(null);
     setTouchStart(e.targetTouches[0].clientY);
   };
@@ -242,7 +252,7 @@ function AboutContent() {
   };
 
   const handleTouchEnd = () => {
-    if (!isMobile || isScrolling || !touchStart || !touchEnd) return;
+    if (!isMobile || !touchStart || !touchEnd) return;
 
     const distance = touchStart - touchEnd;
     const isUpSwipe = distance > 80; // Increased threshold for better detection
@@ -265,7 +275,7 @@ function AboutContent() {
 
   // Wheel event handler for desktop
   const handleWheel = (e: React.WheelEvent) => {
-    if (isMobile || isScrolling) return;
+    if (isMobile) return;
 
     e.preventDefault();
 
@@ -741,10 +751,11 @@ function AboutContent() {
               <div className="relative carousel-container">
                 {/* Main Skill Card */}
                 <div
-                  className="overflow-hidden rounded-3xl"
+                  className="overflow-hidden rounded-3xl touch-pan-x"
                   onTouchStart={handleCarouselTouchStart}
                   onTouchMove={handleCarouselTouchMove}
                   onTouchEnd={handleCarouselTouchEnd}
+                  style={{ touchAction: 'pan-x' }}
                 >
                   <div
                     className="flex transition-transform duration-500 ease-out skill-carousel"
@@ -1237,7 +1248,7 @@ function AboutContent() {
       <CarouselNavigation isVisible={isNavVisible} />
 
       {/* Mobile Scroll Hint - Only show on first section */}
-      {isMobile && activeSection === 'hero' && !isScrolling && (
+      {isMobile && activeSection === 'hero' && (
         <div className="mobile-scroll-hint">
           <div className="flex flex-col items-center">
             <span style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}>Swipe up to explore</span>
@@ -1246,22 +1257,7 @@ function AboutContent() {
         </div>
       )}
 
-      {/* Mobile Swipe Feedback */}
-      {isMobile && isScrolling && (
-        <div className="fixed inset-0 z-50 pointer-events-none flex items-center justify-center">
-          <div className="bg-black/60 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20">
-            <div className="flex items-center space-x-2">
-              <div className="w-2 h-2 bg-white/60 rounded-full animate-pulse"></div>
-              <span
-                className="text-sm text-white/80"
-                style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
-              >
-                Navigating...
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
+
 
       {/* Font imports and animations */}
       <style jsx global>{`
