@@ -4,6 +4,8 @@ import { Contact } from "@/components/sections/Contact";
 import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
 import { PersonalLogo } from "@/components/ui/PersonalLogo";
 import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
+import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
@@ -11,6 +13,23 @@ const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 
 function ContactContent() {
   const { isNavVisible, toggleNavigation } = useNavigation();
+  const isMobile = useIsMobile();
+
+  // R key functionality
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        toggleNavigation();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [toggleNavigation]);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
@@ -30,10 +49,10 @@ function ContactContent() {
         <Contact />
       </div>
 
-      {/* Personal Logo */}
-      <div className="fixed top-8 left-8 z-20">
+      {/* Personal Logo - Responsive positioning and sizing */}
+      <div className="fixed top-4 left-4 sm:top-6 sm:left-6 md:top-8 md:left-8 z-20">
         <PersonalLogo
-          size="md"
+          size={isMobile ? "sm" : "md"}
           onClick={toggleNavigation}
           isToggled={!isNavVisible}
         />

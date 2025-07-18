@@ -7,6 +7,7 @@ import { AnimatedButton } from "@/components/ui/AnimatedButton";
 import SplitText from "@/components/ui/SplitText";
 import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
 import { useIsMobile } from "@/hooks/useMediaQuery";
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
@@ -15,6 +16,22 @@ const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
 function HeroContent() {
   const { isNavVisible, toggleNavigation } = useNavigation();
   const isMobile = useIsMobile();
+
+  // R key functionality
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'r' || event.key === 'R') {
+        event.preventDefault();
+        toggleNavigation();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [toggleNavigation]);
 
   return (
     <section id="home" className="h-screen relative overflow-hidden bg-background">

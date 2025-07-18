@@ -32,13 +32,15 @@
 .projects-component {
   max-width: 1200px;
   margin: 0 auto;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
   font-family: "PP Neue Montreal", sans-serif;
   color: #f0ede8;
   padding: 1rem;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 .projects-list {
@@ -50,6 +52,7 @@
   justify-content: center;
   position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
@@ -60,10 +63,12 @@
 
 .project-item {
   width: 100%;
+  max-width: 100%;
   text-align: center;
   cursor: pointer;
   margin-bottom: 1.5rem;
   position: relative;
+  overflow-x: hidden;
 }
 
 .project-title-container {
@@ -174,27 +179,94 @@
 }
 
 @media (max-width: 768px) {
+  .projects-component {
+    padding: 1rem;
+    min-height: 100vh;
+    padding-top: 5rem; /* Account for fixed header */
+    padding-bottom: 8rem; /* Account for navigation */
+  }
+
+  .projects-heading {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    padding: 0 1rem;
+  }
+
+  .projects-list {
+    padding: 0 0.5rem;
+  }
+
+  .project-item {
+    margin-bottom: 2rem;
+    padding: 0 0.5rem;
+  }
+
   .project-content {
     flex-direction: column;
+    gap: 1.5rem;
   }
 
   .project-details {
     width: 100%;
     text-align: center;
     margin-bottom: 1rem;
+    padding: 0 1rem;
   }
 
   .project-details.right {
     text-align: center;
     margin-top: 1rem;
     margin-bottom: 0;
+    padding: 0 1rem;
   }
 
   .project-image {
-    width: 80%;
+    width: 90%;
+    max-width: 350px;
+    margin: 0 auto;
   }
 
   .project-title {
     font-size: 2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .detail-label {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  /* Improve touch targets */
+  .project-item {
+    min-height: 44px;
+    cursor: pointer;
+  }
+
+  /* Better spacing for very small screens */
+  @media (max-width: 480px) {
+    .projects-component {
+      padding: 0.5rem;
+      padding-top: 4rem;
+      padding-bottom: 7rem;
+    }
+
+    .projects-heading {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .project-title {
+      font-size: 1.75rem;
+    }
+
+    .project-image {
+      width: 95%;
+    }
+
+    .detail-label {
+      font-size: 0.7rem;
+    }
   }
 }
