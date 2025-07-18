@@ -870,10 +870,10 @@ function AboutContent() {
         </div>
 
         {/* Experience Section */}
-        <div className="min-h-screen py-16 md:py-0 md:flex md:items-center justify-center px-4 md:px-8" id="experience">
+        <div className="min-h-screen py-20 md:py-0 md:flex md:items-center justify-center px-4 md:px-8" id="experience">
           <div className="max-w-4xl mx-auto w-full">
             <h2
-              className="text-3xl md:text-4xl lg:text-6xl font-light uppercase tracking-wide text-center scroll-reveal mb-8 md:mb-12"
+              className="text-3xl md:text-4xl lg:text-6xl font-light uppercase tracking-wide text-center scroll-reveal mb-6 md:mb-12"
               style={{
                 fontFamily: '"PP Neue Montreal", sans-serif',
                 letterSpacing: '-0.02em'
@@ -895,16 +895,16 @@ function AboutContent() {
               {/* Enhanced Experience Content */}
               <div className="md:ml-20 w-full">
                 {/* Company Logo/Icon */}
-                <div className="scroll-reveal mb-4" style={{ animationDelay: '0.2s' }}>
-                  <div className="w-14 h-14 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
-                    <span className="text-2xl">💻</span>
+                <div className="scroll-reveal mb-3 md:mb-4" style={{ animationDelay: '0.2s' }}>
+                  <div className="w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br from-white/10 to-white/5 rounded-xl border border-white/20 flex items-center justify-center backdrop-blur-sm">
+                    <span className="text-xl md:text-2xl">💻</span>
                   </div>
                 </div>
 
               {/* Company Name */}
-              <div className="scroll-reveal mb-3" style={{ animationDelay: '0.3s' }}>
+              <div className="scroll-reveal mb-2 md:mb-3" style={{ animationDelay: '0.3s' }}>
                 <h3
-                  className="text-2xl font-light uppercase tracking-wide text-white/90"
+                  className="text-xl md:text-3xl font-light uppercase tracking-wide text-white/90"
                   style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                 >
                   TechLearn Solutions
@@ -912,9 +912,9 @@ function AboutContent() {
               </div>
 
               {/* Role with Easter Egg Tooltip */}
-              <div className="scroll-reveal mb-3 relative group" style={{ animationDelay: '0.4s' }}>
+              <div className="scroll-reveal mb-2 md:mb-3 relative group" style={{ animationDelay: '0.4s' }}>
                 <h4
-                  className="text-lg font-medium text-white/80 cursor-help hover:text-white transition-colors duration-300"
+                  className="text-base md:text-xl font-medium text-white/80 cursor-help hover:text-white transition-colors duration-300"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   Frontend Intern
@@ -936,9 +936,9 @@ function AboutContent() {
               </div>
 
               {/* Duration */}
-              <div className="scroll-reveal mb-6" style={{ animationDelay: '0.5s' }}>
+              <div className="scroll-reveal mb-4 md:mb-6" style={{ animationDelay: '0.5s' }}>
                 <span
-                  className="text-sm opacity-60 uppercase tracking-wider bg-white/5 px-3 py-1 rounded-full border border-white/10"
+                  className="text-xs md:text-sm opacity-60 uppercase tracking-wider bg-white/5 px-2 py-1 md:px-3 md:py-1 rounded-full border border-white/10"
                   style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                 >
                   2025 - Present
@@ -946,18 +946,18 @@ function AboutContent() {
               </div>
 
               {/* Tech Stack */}
-              <div className="scroll-reveal mb-8" style={{ animationDelay: '0.6s' }}>
+              <div className="scroll-reveal mb-6 md:mb-8" style={{ animationDelay: '0.6s' }}>
                 <h5
-                  className="text-sm uppercase tracking-wider text-white/60 mb-3"
+                  className="text-xs md:text-sm uppercase tracking-wider text-white/60 mb-2 md:mb-3"
                   style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                 >
                   Tech Stack
                 </h5>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-1.5 md:gap-2">
                   {['React', 'Tailwind CSS'].map((tech, index) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 bg-white/10 rounded-full text-sm border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-default"
+                      className="px-2 py-1 md:px-3 md:py-1 bg-white/10 rounded-full text-xs md:text-sm border border-white/20 hover:bg-white/20 transition-all duration-300 cursor-default"
                       style={{
                         fontFamily: '"TheGoodMonolith", sans-serif',
                         animationDelay: `${0.7 + index * 0.1}s`
@@ -972,10 +972,10 @@ function AboutContent() {
               {/* Toggle Content Section */}
               <div className="scroll-reveal" style={{ animationDelay: '0.8s' }}>
                 {/* Toggle Buttons */}
-                <div className="flex mb-4 bg-white/5 rounded-full p-1 border border-white/10">
+                <div className="flex mb-3 md:mb-6 bg-white/5 rounded-full p-1 border border-white/10">
                   <button
                     onClick={() => setExperienceView('responsibilities')}
-                    className={`flex-1 px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
+                    className={`flex-1 px-2 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                       experienceView === 'responsibilities'
                         ? 'bg-white/20 text-white shadow-lg'
                         : 'text-white/60 hover:text-white/80'
@@ -986,7 +986,7 @@ function AboutContent() {
                   </button>
                   <button
                     onClick={() => setExperienceView('accomplishments')}
-                    className={`flex-1 px-3 py-2 rounded-full text-xs font-medium transition-all duration-300 whitespace-nowrap ${
+                    className={`flex-1 px-2 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                       experienceView === 'accomplishments'
                         ? 'bg-white/20 text-white shadow-lg'
                         : 'text-white/60 hover:text-white/80'
@@ -1004,14 +1004,14 @@ function AboutContent() {
                       ? 'opacity-100 translate-x-0'
                       : 'opacity-0 translate-x-[-20px] pointer-events-none md:block hidden'
                   }`}>
-                    <div className="space-y-3">
+                    <div className="space-y-2 md:space-y-4">
                       <h6
-                        className="text-lg font-medium text-white/90 mb-3"
+                        className="text-base md:text-xl font-medium text-white/90 mb-2 md:mb-4"
                         style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                       >
                         What I Do Daily
                       </h6>
-                      <ul className="space-y-3">
+                      <ul className="space-y-2 md:space-y-4">
                         {[
                           'Build responsive React components that actually work on all devices (yes, even Internet Explorer... just kidding)',
                           'Transform Figma designs into pixel-perfect interfaces using Tailwind CSS',
@@ -1024,8 +1024,8 @@ function AboutContent() {
                             className="flex items-start opacity-80 hover:opacity-100 transition-opacity duration-300"
                             style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                           >
-                            <span className="text-white/60 mr-3 mt-1 text-base">•</span>
-                            <span className="leading-relaxed text-sm">{item}</span>
+                            <span className="text-white/60 mr-2 md:mr-3 mt-0.5 md:mt-1 text-sm md:text-lg">•</span>
+                            <span className="leading-relaxed text-xs md:text-base">{item}</span>
                           </li>
                         ))}
                       </ul>
@@ -1037,14 +1037,14 @@ function AboutContent() {
                       ? 'opacity-100 translate-x-0'
                       : 'opacity-0 translate-x-[20px] pointer-events-none md:block hidden'
                   }`}>
-                    <div className="space-y-3">
+                    <div className="space-y-2 md:space-y-4">
                       <h6
-                        className="text-lg font-medium text-white/90 mb-3"
+                        className="text-base md:text-xl font-medium text-white/90 mb-2 md:mb-4"
                         style={{ fontFamily: '"PP Neue Montreal", sans-serif' }}
                       >
                         Wins & Achievements
                       </h6>
-                      <ul className="space-y-3">
+                      <ul className="space-y-2 md:space-y-4">
                         {[
                           'Successfully implemented responsive design patterns that improved mobile user experience',
                           'Reduced component rendering time by optimizing React component structure',
@@ -1057,8 +1057,8 @@ function AboutContent() {
                             className="flex items-start opacity-80 hover:opacity-100 transition-opacity duration-300"
                             style={{ fontFamily: '"TheGoodMonolith", sans-serif' }}
                           >
-                            <span className="text-green-400/60 mr-3 mt-1 text-base">✓</span>
-                            <span className="leading-relaxed text-sm">{item}</span>
+                            <span className="text-green-400/60 mr-2 md:mr-3 mt-0.5 md:mt-1 text-sm md:text-lg">✓</span>
+                            <span className="leading-relaxed text-xs md:text-base">{item}</span>
                           </li>
                         ))}
                       </ul>
