@@ -405,18 +405,6 @@ export function Projects() {
       <h1 className="projects-heading">
         PROJECTS
       </h1>
-
-      {/* Scroll Indicator for Mobile */}
-      <div className="scroll-indicator">
-        <div className="scroll-text">Scroll to explore</div>
-        <div className="scroll-arrow">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7 13l3 3 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M7 6l3 3 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-      </div>
-
       <div className="projects-list" ref={projectsRef}>
         {projects.map((project, index) => (
           <div key={project.id} className="project-item" data-index={index}>

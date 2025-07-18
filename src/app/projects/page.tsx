@@ -16,7 +16,7 @@ function ProjectsContent() {
   const { isNavVisible, toggleNavigation } = useNavigation();
   const isMobile = useIsMobile();
 
-  // R key functionality
+  // R key functionality and mobile scroll setup
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'r' || event.key === 'R') {
@@ -27,13 +27,30 @@ function ProjectsContent() {
 
     window.addEventListener('keydown', handleKeyDown);
 
+    // Enable scrolling on mobile for projects page only
+    const htmlElement = document.documentElement;
+    const bodyElement = document.body;
+
+    if (isMobile) {
+      htmlElement.style.overflow = 'auto';
+      bodyElement.style.overflow = 'auto';
+    }
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
+
+      // Restore overflow when leaving projects page
+      if (isMobile) {
+        htmlElement.style.overflow = '';
+        bodyElement.style.overflow = '';
+      }
     };
-  }, [toggleNavigation]);
+  }, [toggleNavigation, isMobile]);
 
   return (
-    <div className="min-h-screen bg-background text-white relative overflow-x-hidden overflow-y-auto">
+    <div className={`min-h-screen bg-background text-white relative overflow-x-hidden ${
+      isMobile ? 'overflow-y-auto' : ''
+    }`}>
       {/* Silk Background */}
       <div className="fixed inset-0 z-0 opacity-30">
         <Silk

@@ -6,7 +6,7 @@
 
 .projects-heading {
   font-family: "PP Neue Montreal", sans-serif;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 900;
   text-transform: uppercase;
   letter-spacing: -0.02em;
@@ -14,16 +14,26 @@
   margin-bottom: 2rem;
   pointer-events: none;
   color: white;
+  padding: 0 1rem;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 @media (min-width: 768px) {
   .projects-heading {
-    font-size: 5rem;
+    font-size: 4rem;
     margin-bottom: 3rem;
+    padding: 0;
   }
 }
 
 @media (min-width: 1024px) {
+  .projects-heading {
+    font-size: 5rem;
+  }
+}
+
+@media (min-width: 1200px) {
   .projects-heading {
     font-size: 6rem;
   }
@@ -39,7 +49,6 @@
   font-family: "PP Neue Montreal", sans-serif;
   color: #f0ede8;
   padding: 1rem;
-  padding-bottom: 8rem; /* Extra space for navigation */
   width: 100%;
   overflow-x: hidden;
 }
@@ -257,39 +266,6 @@
   opacity: 1;
 }
 
-/* Scroll Indicator */
-.scroll-indicator {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 2rem;
-  opacity: 0.7;
-  animation: fadeInOut 2s ease-in-out infinite;
-}
-
-.scroll-text {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-.scroll-arrow {
-  transform: rotate(90deg);
-  animation: bounce 1.5s ease-in-out infinite;
-}
-
-@keyframes fadeInOut {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-
-@keyframes bounce {
-  0%, 100% { transform: rotate(90deg) translateY(0); }
-  50% { transform: rotate(90deg) translateY(3px); }
-}
-
 @media (max-height: 700px) {
   .project-title {
     font-size: 2.5rem;
@@ -305,17 +281,14 @@
     padding: 1rem;
     min-height: 100vh;
     padding-top: 5rem; /* Account for fixed header */
-    padding-bottom: 12rem; /* Increased for navigation + GitHub button */
-  }
-
-  .scroll-indicator {
-    display: flex;
+    padding-bottom: 15rem; /* Extra space for GitHub button and navigation */
   }
 
   .projects-heading {
-    font-size: 3rem;
+    font-size: 2.8rem;
     margin-bottom: 2rem;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
+    line-height: 1.1;
   }
 
   .projects-list {
@@ -390,12 +363,24 @@
     .projects-component {
       padding: 0.5rem;
       padding-top: 4rem;
-      padding-bottom: 12rem; /* Increased for very small screens */
+      padding-bottom: 18rem; /* Extra space for very small screens */
     }
 
     .projects-heading {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       margin-bottom: 1.5rem;
+      padding: 0 1rem;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+    }
+  }
+
+  /* Extra small screens */
+  @media (max-width: 360px) {
+    .projects-heading {
+      font-size: 1.9rem;
+      padding: 0 0.5rem;
+      letter-spacing: 0;
     }
 
     .project-title {
