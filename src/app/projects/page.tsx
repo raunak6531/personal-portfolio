@@ -33,7 +33,7 @@ function ProjectsContent() {
   }, [toggleNavigation]);
 
   return (
-    <div className="min-h-screen bg-background text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-background text-white relative overflow-x-hidden overflow-y-auto">
       {/* Silk Background */}
       <div className="fixed inset-0 z-0 opacity-30">
         <Silk

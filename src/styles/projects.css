@@ -39,6 +39,7 @@
   font-family: "PP Neue Montreal", sans-serif;
   color: #f0ede8;
   padding: 1rem;
+  padding-bottom: 8rem; /* Extra space for navigation */
   width: 100%;
   overflow-x: hidden;
 }
@@ -256,6 +257,39 @@
   opacity: 1;
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  opacity: 0.7;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+.scroll-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.scroll-arrow {
+  transform: rotate(90deg);
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: rotate(90deg) translateY(0); }
+  50% { transform: rotate(90deg) translateY(3px); }
+}
+
 @media (max-height: 700px) {
   .project-title {
     font-size: 2.5rem;
@@ -271,7 +305,11 @@
     padding: 1rem;
     min-height: 100vh;
     padding-top: 5rem; /* Account for fixed header */
-    padding-bottom: 8rem; /* Account for navigation */
+    padding-bottom: 12rem; /* Increased for navigation + GitHub button */
+  }
+
+  .scroll-indicator {
+    display: flex;
   }
 
   .projects-heading {
@@ -292,7 +330,7 @@
   .project-content {
     flex-direction: column;
     gap: 1.5rem;
-    padding-bottom: 1rem;
+    padding-bottom: 3rem; /* Increased bottom padding */
   }
 
   .project-details {
@@ -311,8 +349,8 @@
 
   .project-links {
     justify-content: center;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     padding: 0 1rem;
   }
 
@@ -352,7 +390,7 @@
     .projects-component {
       padding: 0.5rem;
       padding-top: 4rem;
-      padding-bottom: 7rem;
+      padding-bottom: 12rem; /* Increased for very small screens */
     }
 
     .projects-heading {
@@ -373,8 +411,8 @@
     }
 
     .project-links {
-      margin-top: 1rem;
-      margin-bottom: 1.5rem;
+      margin-top: 2rem;
+      margin-bottom: 3rem;
       padding: 0 0.5rem;
     }
 
