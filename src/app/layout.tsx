@@ -42,12 +42,21 @@ export const metadata: Metadata = {
     title: "Professional Portfolio | Raunak Sadana",
     description: "Full Stack Developer specializing in modern web applications.",
     siteName: "Raunak Sadana Portfolio",
+    images: [
+      {
+        url: "/my_photo.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Raunak Sadana - Full Stack Developer",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Professional Portfolio | Raunak Sadana",
     description: "Full Stack Developer specializing in modern web applications.",
     creator: "@raunak6531",
+    images: ["/my_photo.jpg"],
   },
 };
 
