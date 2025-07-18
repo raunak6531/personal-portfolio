@@ -5,6 +5,7 @@ import { CarouselNavigation } from "@/components/ui/CarouselNavigation";
 import { PersonalLogo } from "@/components/ui/PersonalLogo";
 import { NavigationProvider, useNavigation } from "@/contexts/NavigationContext";
 import dynamic from "next/dynamic";
+import "@/styles/projects.css";
 
 // Dynamically import Silk to avoid SSR issues with Three.js
 const Silk = dynamic(() => import("@/components/ui/Silk"), { ssr: false });
