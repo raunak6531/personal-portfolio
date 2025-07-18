@@ -35,6 +35,11 @@ export const metadata: Metadata = {
   authors: [{ name: "Raunak Sadana" }],
   creator: "Raunak Sadana",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
